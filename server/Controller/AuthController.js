@@ -45,13 +45,13 @@ const loginUser = async (req, res) => {
       res.status(401).json({message:"Wrong Password try again"})
     }else{
       const token=jwt.sign({userId:user._id},process.env.SECERETKEY,{expiresIn:'2H'})
-      console.log("usertoken")
+      // console.log("usertoken")
       res.status(200).json({user,token,message:"user login succsessfully"})
     }
   }
 };
 const getUser=async(req,res)=>{
-  const user=await userModel.find()
+  const user=await userModel.find({})
   res.json(user)
 }
 module.exports = {

@@ -3,13 +3,13 @@ const UserSchema = new mongoose.Schema(
   {
     role: {
       type: String,
-      require: true,
-      enum: ["User", "Admin", "Hospital", "Organization"],
+      required: true,
+      enum: ["Donor", "Admin", "Hospital", "Organization"],
     },
     organizationName: {
       type: String,
-      require: () => {
-        if (this.role === "Organization") {
+      required: () => {
+        if (this.role === "Organization") {1
           return true;
         } else {
           return false;
@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema(
     },
     hospitalName: {
       type: String,
-      require: () => {
+      required: () => {
         if (this.role === "Hospital") {
           return true;
         } else {
@@ -28,23 +28,23 @@ const UserSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      require: true,
+      required: true,
     },
     email: {
       type: String,
-      require: true,
+      required: true,
     },
     website: {
       type: String,
-      require: true,
+      required: true,
     },
     address: {
       type: String,
-      require: true,
+      required: true,
     },
     password: {
       type: String,
-      require: true,
+      required: true,
     },
   },
   { timestamps: true }
