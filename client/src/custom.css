@@ -1,53 +1,64 @@
 /* base css */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap");
 
-body{
-    margin: 0;
-    padding: 0;
-    line-height: 32px;
-	font-family: 'Nunito', sans-serif;
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 28px;
+  font-family: "Nunito", sans-serif;
 }
-h1,h2,h3,h4,h5,h6{
-    margin:0 0 10px;
-    font-weight: 500;
+img {
+  width: 100%;
+  max-width: 100%
+  ;
 }
-h1{
-    font-weight: 700;
-    font-size: 40px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 10px;
+  font-weight: 500;
 }
-h2{
-    font-weight: 600;
-    font-size: 32px;
+h1 {
+  font-weight: 700;
+  font-size: 40px;
 }
-h3{
-    font-size: 22px;
+h2 {
+  font-weight: 600;
+  font-size: 32px;
 }
-h4{
-    font-size: 20px;
+h3 {
+  font-size: 22px;
 }
-h5{
-    font-size: 18px;
+h4 {
+  font-size: 20px;
 }
-h6{
-    font-size: 16px;
+h5 {
+  font-size: 18px;
 }
-p{
-    margin: 0 0 10px;
-    font-weight: 400;
+h6 {
+  font-size: 16px;
 }
-a{
-	text-decoration: none;
-	color: #000;
+p {
+  margin: 0 0 10px;
+  font-weight: 400;
 }
-a:hover{
-	color: #000;
+a {
+  text-decoration: none;
+  color: #000;
 }
-ul,li{
-	padding: 0;
-	margin: 0;
+a:hover {
+  color: #000;
 }
-li{
-	text-decoration: none;
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+li {
+  text-decoration: none;
 }
 
 /* base css-end */
