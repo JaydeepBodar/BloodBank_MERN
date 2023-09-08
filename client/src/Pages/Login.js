@@ -3,7 +3,10 @@ import InputType from "../Component/InputType";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import styles from "../Style/form.module.css";
 import { Link } from "react-router-dom";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 const Login = () => {
+  const [type, setType] = useState("password");
+  const [icon, setIcon] = useState(AiFillEyeInvisible);
   const [Input, setInput] = useState({
     email: "",
     password: "",
@@ -13,6 +16,15 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInput({ ...Input, [name]: value });
+  };
+  const handleToggle = () => {
+    if (type === "password") {
+      setIcon(AiFillEye);
+      setType("text");
+    } else {
+      setIcon(AiFillEyeInvisible);
+      setType("password");
+    }
   };
   return (
     <section className="login_section">
@@ -81,11 +93,12 @@ const Login = () => {
                   <InputType
                     value={password}
                     label="Password"
-                    type="password"
+                    type={type}
                     onChange={handleChange}
                     name="password"
                     placeholder="Enter Your Password..."
                   />
+                  <span onClick={handleToggle}>{icon}</span>
                 </div>
                 <h6 className="mt-2">
                   New user ! <Link to="/home/register">Create one</Link>

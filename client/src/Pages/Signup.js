@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import InputType from "../Component/InputType";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import styles from "../Style/form.module.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 const Signup = () => {
-  const location = useLocation();
+  const [type, setType] = useState("password");
+  const [icon, setIcon] = useState(AiFillEyeInvisible);
   const [Input, setInput] = useState({
     name: "",
     organizationName: "",
@@ -16,7 +18,7 @@ const Signup = () => {
     role: "Donor",
   });
   const {
-		name,
+    name,
     email,
     password,
     role,
@@ -29,11 +31,20 @@ const Signup = () => {
     const { name, value } = e.target;
     setInput({ ...Input, [name]: value });
   };
+  const handleToggle = () => {
+    if (type === "password") {
+      setIcon(AiFillEye);
+      setType("text");
+    } else {
+      setIcon(AiFillEyeInvisible);
+      setType("password");
+    }
+  };
   return (
     <section className="signup_section">
       <Row className="m-0">
         <Col lg={8} className={`${styles.form_signup_img} p-0`}>
-          <img  src="/images/banner1.jpg" />
+          <img src="/images/banner1.jpg" />
         </Col>
         <Col lg={4} md={12} className="p-0">
           <div className={styles.form_signup_wrapper}>
@@ -164,25 +175,30 @@ const Signup = () => {
                     placeholder="Enter Your Email..."
                   />
                 </div>
-								<div className={styles.form_group}>
-									<label>Address</label>
+                <div className={styles.form_group}>
+                  <label>Address</label>
                   <textarea
-										rows={3}
+                    rows={3}
                     value={address}
                     onChange={handleChange}
                     name="address"
-                    placeholder="Enter Your Email..."
+                    placeholder="Enter Your Address..."
                   />
                 </div>
                 <div className={styles.form_group}>
                   <InputType
                     value={password}
                     label="Password"
-                    type="password"
+                    type={type}
                     onChange={handleChange}
                     name="password"
                     placeholder="Enter Your Password..."
                   />
+                  <span
+                    onClick={handleToggle}
+                  >
+                    {icon}
+                  </span>
                 </div>
                 <h6 className="mt-2">
                   Alreday user ! <Link to="/home/login">Log in</Link>
