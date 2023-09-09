@@ -31,6 +31,11 @@ const Login = () => {
       <Row className="m-0">
         <Col lg={8} className={`${styles.form_img} p-0`}>
           <img src="/images/banner1.jpg" />
+          <img
+            src="/NicePng_red-cross-png_360800.png"
+            style={{ width: "100px", height: "93px" }}
+            className={styles.logo_img}
+          />
         </Col>
         <Col lg={4} md={12} className="p-0">
           <div className={styles.form_wrapper}>

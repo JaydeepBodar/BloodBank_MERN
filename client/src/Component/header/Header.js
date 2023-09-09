@@ -9,7 +9,7 @@ const Header = () => {
       <header className={styles.site_header}>
         <Container>
           <div>
-            <Link to='/'><h3>Blood Bank Managment System</h3></Link>
+            <Link to='/'><img src="/NicePng_red-cross-png_360800.png" style={{width:"100px",height:"50px" }}/></Link>
           </div>
         </Container>
       </header>

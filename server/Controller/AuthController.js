@@ -35,7 +35,7 @@ const registerUser = async (req, res) => {
   }
 };
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
   const user=await userModel.findOne({email:email})
   if(!user){
     res.status(201).json({message:"Email id not Register Our System"})
@@ -43,7 +43,11 @@ const loginUser = async (req, res) => {
     const comparepassword=await bcrypt.compare(password,user.password)
     if(!comparepassword){
       res.status(401).json({message:"Wrong Password try again"})
-    }else{
+    }
+    else if(user.role !== role){
+      res.status(205).json({message:"Your Role is not matched in Our System"})
+    }
+    else{
       const token=jwt.sign({userId:user._id},process.env.SECERETKEY,{expiresIn:'2H'})
       // console.log("usertoken")
       res.status(200).json({user,token,message:"user login succsessfully"})
