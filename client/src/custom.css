@@ -62,3 +62,11 @@ li {
 }
 
 /* base css-end */
+@media screen and (max-width: 480px){
+  .Toastify .Toastify__toast-container {
+      width: 100%;
+      max-width: 250px;
+      top: 80px;
+      right: 0 !important;
+  }       
+} 

@@ -82,10 +82,11 @@ img.logo_img{
     background-repeat: no-repeat;
   }
   .mobile_responsive{
+    margin: 0 auto;
     width: 100%;
     max-width: 500px;
     background-color: #fff;
-    padding: 25px;
+    padding: 25px 15px;
     border-radius: 12px;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -96,5 +97,10 @@ img.logo_img{
 @media screen and (max-width:768px){
   .form_wrapper label,.form_signup_wrapper label{
     font-size: 14px;
+  }
+}
+@media screen and (max-width:480px) {
+  .group_form{
+    column-gap: 4px;
   }
 }

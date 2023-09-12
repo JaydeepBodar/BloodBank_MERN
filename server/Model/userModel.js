@@ -9,10 +9,10 @@ const UserSchema = new mongoose.Schema(
     organizationName: {
       type: String,
       required: () => {
-        if (this.role === "Organization") {1
+        if (this.role === "Organization") {
           return true;
         } else {
-          return false;
+          return false
         }
       },
     },
@@ -22,13 +22,22 @@ const UserSchema = new mongoose.Schema(
         if (this.role === "Hospital") {
           return true;
         } else {
-          return false;
+          return null;
         }
       },
     },
     name: {
       type: String,
-      required: true,
+      required:()=>{
+        if(this.role === "Donor"){
+          return true;
+        }else if(this.role === "Admin"){
+          return true;
+        }
+        else{
+          return null
+        }
+      },
     },
     email: {
       type: String,
@@ -36,7 +45,15 @@ const UserSchema = new mongoose.Schema(
     },
     website: {
       type: String,
-      required: true,
+      required: ()=>{
+        if(this.role === "Hospital"){
+          return true
+        }else if(this.role==="Organization"){
+          return true
+        }else{
+          return null
+        }
+      },
     },
     address: {
       type: String,

@@ -1,4 +1,4 @@
-.banner_wrapper {
+  .banner_wrapper {
   position: relative;
   top: 0;
   left: 0;
@@ -39,6 +39,7 @@
     font-size: 30px;
   }
 	.banner_content{
+    top: 25%;
 		left: 0;
 		transform: translate(0, 0);
 		-webkit-transform: translate(0, 0);

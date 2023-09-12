@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import InputType from "../Component/InputType";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import styles from "../Style/form.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import axios from "axios";
+import { api } from "../utils/api";
+import { toast } from "react-toastify";
+import Tostify from "../Component/Tostify";
 const Signup = () => {
   const [type, setType] = useState("password");
+  const navigate = useNavigate();
   const [icon, setIcon] = useState(AiFillEyeInvisible);
   const [Input, setInput] = useState({
     name: "",
@@ -15,7 +20,7 @@ const Signup = () => {
     address: "",
     email: "",
     password: "",
-    role: "Donor",
+    role: "",
   });
   const {
     name,
@@ -40,12 +45,49 @@ const Signup = () => {
       setType("password");
     }
   };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    let data;
+    switch (role) {
+      case "Donor":
+        data = { name, email, password, role, address };
+        break;
+      case "Organization":
+        data = { email, password, role, address, website, organizationName };
+        break;
+      case "Admin":
+        data = { name, email, password, role, address };
+        break;
+      case "Hospital":
+        data = { hospitalName, website, email, password, role, address };
+        break;
+      default:
+        return;
+    }
+    if (!data) {
+      toast.error("All field are Required");
+    }
+    console.log("daaaaaaaaaaaaaaaaa", data);
+    axios
+      .post(`${api}auth/register`, data)
+      .then((res) => {
+          console.log("res", res);
+          localStorage.setItem("user",JSON.stringify(res.data.user))
+          localStorage.setItem("token", JSON.stringify(res.data.token))
+          toast.success(res.data.message)
+          navigate("/home/dashboard")
+      })
+      .catch((e) => toast.warn(e.response.data.message));
+  };
   return (
     <section className="signup_section">
+      <Tostify />
       <Row className="m-0">
         <Col lg={8} className={`${styles.form_signup_img} p-0`}>
-          <img src="/images/banner1.jpg" />
+          <img loading="lazy" src="/images/banner1.jpg" />
           <img
+            loading="lazy"
             src="/NicePng_red-cross-png_360800.png"
             style={{ width: "100px", height: "93px" }}
             className={styles.logo_img}
@@ -55,7 +97,7 @@ const Signup = () => {
           <div className={styles.form_signup_wrapper}>
             <div className={styles.mobile_responsive}>
               <h2 style={{ textAlign: "center" }}>Sign up</h2>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className={styles.radio_group}>
                   <div className={styles.group_form}>
                     <InputType
@@ -127,7 +169,7 @@ const Signup = () => {
                     <div className={styles.form_group}>
                       <InputType
                         label="Organization name"
-                        type="email"
+                        type="text"
                         value={organizationName}
                         onChange={handleChange}
                         name="organizationName"
@@ -199,17 +241,16 @@ const Signup = () => {
                     name="password"
                     placeholder="Enter Your Password..."
                   />
-                  <span
-                    onClick={handleToggle}
-                  >
-                    {icon}
-                  </span>
+                  <span onClick={handleToggle}>{icon}</span>
                 </div>
                 <h6 className="mt-2">
                   Alreday user ! <Link to="/home/login">Log in</Link>
                 </h6>
-                <Button style={{ width: "100%", marginTop: "10px" }}>
-                  Log in
+                <Button
+                  type="submit"
+                  style={{ width: "100%", marginTop: "10px" }}
+                >
+                  Sign up
                 </Button>
               </form>
             </div>
