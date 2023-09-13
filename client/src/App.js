@@ -10,11 +10,15 @@ import Dashbord from "./Pages/Dashbord";
 import ProtectRoutes from "./utils/ProtectRoutes";
 import Loginprotect from "./utils/Loginprotect";
 import Error from "./Component/Error";
+import Inventory from "./Pages/Dashbordlist/Inventory";
+import Donorlist from "./Pages/Dashbordlist/Donorlist";
+import Hospitallist from "./Pages/Dashbordlist/Hospitallist";
+import Singleuser from "./Component/Singleuser";
 function App() {
   return (
     <React.Fragment>
-      <Routes>  
-        <Route path="*" element={<Error/>}/>
+      <Routes>
+        <Route path="*" element={<Error />} />
         <Route
           path="/"
           index
@@ -49,6 +53,31 @@ function App() {
               </ProtectRoutes>
             }
           />
+          <Route
+            path="inventory"
+            element={
+              <ProtectRoutes>
+                <Inventory />
+              </ProtectRoutes>
+            }
+          />
+          <Route
+            path="donorlist"
+            element={
+              <ProtectRoutes>
+                <Donorlist />
+              </ProtectRoutes>
+            }
+          />
+          <Route
+            path="Hospitallist"
+            element={
+              <ProtectRoutes>
+                <Hospitallist />
+              </ProtectRoutes>
+            }
+          />
+          <Route path="donor/:id" element={<Singleuser/>}/>
         </Route>
       </Routes>
     </React.Fragment>

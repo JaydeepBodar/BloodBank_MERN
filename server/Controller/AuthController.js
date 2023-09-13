@@ -50,14 +50,14 @@ const loginUser = async (req, res) => {
   const { email, password, role } = req.body;
   const user = await userModel.findOne({ email: email });
   if (!user) {
-    res.status(201).json({ message: "Email id not Register Our System" });
+    res.status(401).json({ message: "Email id not Register Our System" });
   } else {
     const comparepassword = await bcrypt.compare(password, user.password);
     if (!comparepassword) {
-      res.status(401).json({ message: "Wrong Password try again" });
+      res.status(405).json({ message: "Wrong Password try again" });
     } else if (user.role !== role) {
       res
-        .status(203)
+        .status(403)
         .json({ message: "Your Role is not matched in Our System" });
     } else {
       const token = jwt.sign({ userId: user._id }, process.env.SECERETKEY, {
@@ -74,8 +74,24 @@ const getUser = async (req, res) => {
   const user = await userModel.find({_id:req.user._id});
   res.json(user);
 };
+const getDonor=async(req,res)=>{
+  const donor=await userModel.find({role:"Donor"})
+  if(!donor){
+    res.status(205).json({message: "User not found"})
+  }
+  res.status(200).json({donor})
+}
+const getSingledonor=async(req,res)=>{
+  const singledonor=await userModel.findById({_id:req.params.id})
+  if(!singledonor){
+    res.status(205).json({message: "User not found"})
+  }
+  res.status(200).json({singledonor})
+}
 module.exports = {
   registerUser,
   loginUser,
   getUser,
+  getDonor,
+  getSingledonor
 };

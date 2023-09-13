@@ -1,0 +1,82 @@
+/* for singleuser component */
+.user{
+    width: 100%;
+    max-width: 500px;
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate(-70%,-50%);
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 25px 30px;
+    border: 1px solid gray;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    -webkit-transform: translate(-70%,-50%);
+    -moz-transform: translate(-70%,-50%);
+    -ms-transform: translate(-70%,-50%);
+    -o-transform: translate(-70%,-50%);
+}
+@media screen and (max-width:768px) {
+    .user{
+        width: 100%;
+        max-width: 100%;
+        left: 0;
+        transform: translate(0,-50%);
+        -webkit-transform: translate(0,-50%);
+        -moz-transform: translate(0,-50%);
+        -ms-transform: translate(0,-50%);
+        -o-transform: translate(0,-50%);
+}
+}
+/* donor list component */
+.donor_data{
+	padding: 10px 0 20px 0;
+}
+.donor_data table{
+	width: 100%;
+}
+.donor_data table,.donor_data th,.donor_data td {
+  border: 1px solid gray;
+  border-collapse: collapse;
+}
+@media screen and (max-width:768px){
+	.donor_data table{
+		width: 700px;
+	}
+	.donor_data{
+		overflow-x: auto;
+	}
+	.donor_data::-webkit-scrollbar {
+		height: 8px;
+}
+	
+	/* Track */
+	.donor_data::-webkit-scrollbar-track {
+		height: 5px;
+		border-radius: 25px;
+		background: #f1f1f1;
+		-webkit-border-radius: 25px;
+		-moz-border-radius: 25px;
+		-ms-border-radius: 25px;
+		-o-border-radius: 25px;
+}
+	
+	/* Handle */
+	.donor_data::-webkit-scrollbar-thumb {
+		background: #0d6efd;
+		border-radius: 25px;
+		-webkit-border-radius: 25px;
+		-moz-border-radius: 25px;
+		-ms-border-radius: 25px;
+		-o-border-radius: 25px;
+	}
+	
+	/* Handle on hover */
+	.donor_data::-webkit-scrollbar-thumb:hover {
+		background: #0d6efd;
+	}
+}

@@ -1,0 +1,14 @@
+.sidebar_wrapper{
+    padding-top: 25px;
+}
+.sidebar_wrapper a{
+    padding: 10px 25px;
+    background-color: #f2f2f2;
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+}
+.sidebar_wrapper a.active_class{
+    background-color: #0d6efd;
+    color: #f2f2f2;
+}

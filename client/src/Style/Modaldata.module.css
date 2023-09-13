@@ -1,0 +1,18 @@
+.modal_body{
+    text-align: center;
+}
+.modal_body h3{
+    margin: 0 auto;
+    margin-bottom: 20px;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: antiquewhite;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}

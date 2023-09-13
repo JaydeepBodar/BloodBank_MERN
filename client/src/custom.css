@@ -62,6 +62,14 @@ li {
 }
 
 /* base css-end */
+.modal.show .modal-dialog {
+  position: absolute;
+  top: 50%;
+  /* transform: none; */
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
 @media screen and (max-width: 480px){
   .Toastify .Toastify__toast-container {
       width: 100%;

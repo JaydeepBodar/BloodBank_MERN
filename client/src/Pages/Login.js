@@ -43,21 +43,21 @@ const Login = () => {
           // { headers: { "Content-type": "application/json" } }
         )
         .then((res) => {
-          if (res.status === 201) {
+          if (res.status === 200) {
+            // console.log("res.data.user", res.data.user);
+            localStorage.setItem("user", JSON.stringify(res.data.user));
+            localStorage.setItem("token", JSON.stringify(res.data.token));
             toast.warn(res.data.message);
-          } else if (res.status === 203) {
-            toast.warn(res.data.message);
-          } else if (res.status === 401) {
-            toast.error(res.data.message);
+            navigate("/home/dashboard")
           }
-          console.log("res.data.user", res.data.user);
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-          localStorage.setItem("token", JSON.stringify(res.data.token));
-          navigate("/home/dashboard")
         })
         .catch((e) => {
-          if (e.response.status === 401) {
-            toast.error("Invaid Credential");
+          if (e.response.status === 403) {
+            toast.error(e.response.data.message);
+          }else if(e.response.status === 401){
+              toast.error(e.response.data.message)
+          }else if(e.response.status === 405){
+            toast.error(e.response.data.message)
           }
         });
     }
