@@ -81,17 +81,44 @@ const getDonor=async(req,res)=>{
   }
   res.status(200).json({donor})
 }
-const getSingledonor=async(req,res)=>{
+const getSingleuser=async(req,res)=>{
   const singledonor=await userModel.findById({_id:req.params.id})
   if(!singledonor){
     res.status(205).json({message: "User not found"})
   }
   res.status(200).json({singledonor})
 }
+const getOrganization=async(req,res)=>{
+  try{
+    const Organization=await userModel.find({role:"Organization"})
+    res.status(200).json({Organization})
+  }catch(e){
+
+  }
+}
+const getHospital=async(req,res)=>{
+  try{
+    const hospital=await userModel.find({role:"Hospital"})
+    res.status(200).json({hospital})
+  }catch(e){
+
+  }
+}
+const deleteSingleuser=async(req,res)=>{
+  try{
+    const deleteuser=await userModel.findByIdAndDelete({_id:req.params.id})
+    res.status(200).json({message:"Succsessfully delete record"})
+  }catch(e){
+    
+  }
+}
 module.exports = {
   registerUser,
   loginUser,
   getUser,
   getDonor,
-  getSingledonor
+  getSingleuser,
+  getOrganization,
+  getHospital,
+  deleteSingleuser
 };

@@ -11,9 +11,11 @@ import ProtectRoutes from "./utils/ProtectRoutes";
 import Loginprotect from "./utils/Loginprotect";
 import Error from "./Component/Error";
 import Inventory from "./Pages/Dashbordlist/Inventory";
-import Donorlist from "./Pages/Dashbordlist/Donorlist";
+import Donorlist from "./Pages/Dashbordlist/Userlist";
 import Hospitallist from "./Pages/Dashbordlist/Hospitallist";
 import Singleuser from "./Component/Singleuser";
+import Consumer from "./Pages/Dashbordlist/Consumer";
+import Userlist from "./Pages/Dashbordlist/Userlist";
 function App() {
   return (
     <React.Fragment>
@@ -65,7 +67,23 @@ function App() {
             path="donorlist"
             element={
               <ProtectRoutes>
-                <Donorlist />
+                <Userlist />
+              </ProtectRoutes>
+            }
+          />
+          <Route
+            path="organizationlist"
+            element={
+              <ProtectRoutes>
+                <Userlist />
+              </ProtectRoutes>
+            }
+          />
+          <Route
+            path="hospitallist"
+            element={
+              <ProtectRoutes>
+                <Userlist />
               </ProtectRoutes>
             }
           />
@@ -77,7 +95,15 @@ function App() {
               </ProtectRoutes>
             }
           />
-          <Route path="donor/:id" element={<Singleuser/>}/>
+          <Route
+            path="consumer"
+            element={
+              <ProtectRoutes>
+                <Consumer />
+              </ProtectRoutes>
+            }
+          />
+          <Route path="donor/:id" element={<Singleuser />} />
         </Route>
       </Routes>
     </React.Fragment>

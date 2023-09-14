@@ -25,7 +25,7 @@ const Sidebar = () => {
                 </li>
               );
 
-            case "Admin":
+            case "Organization":
               return (
                 <li>
                   <Link
@@ -39,31 +39,102 @@ const Sidebar = () => {
                   </Link>
                 </li>
               );
-
             default:
               return null;
           }
         })()}
+        {(() => {
+          switch (user?.role) {
+            case "Admin":
+              return (
+                <li>
+                  <Link
+                    to="/home/donorlist"
+                    className={`${
+                      location.pathname === "/home/donorlist" &&
+                      styles.active_class
+                    }`}
+                  >
+                    Donorlist
+                  </Link>
+                </li>
+              );
+            case "Organization":
+              return (
+                <li>
+                  <Link
+                    to="/home/donorlist"
+                    className={`${
+                      location.pathname === "/home/donorlist" &&
+                      styles.active_class
+                    }`}
+                  >
+                    Donorlist
+                  </Link>
+                </li>
+              );
+            default:
+              return null;
+          }
+        })()}
+        {(() => {
+          switch (user?.role) {
+            case "Admin":
+              return (
+                <li>
+                  <Link
+                    to="/home/Hospitallist"
+                    className={`${
+                      location.pathname === "/home/Hospitallist" &&
+                      styles.active_class
+                    }`}
+                  >
+                    Hospital
+                  </Link>
+                </li>
+              );
+            case "Organization":
+              return (
+                <li>
+                  <Link
+                    to="/home/Hospitallist"
+                    className={`${
+                      location.pathname === "/home/Hospitallist" &&
+                      styles.active_class
+                    }`}
+                  >
+                    Hospital
+                  </Link>
+                </li>
+              );
+          }
+        })()}
+        {user?.role === "Donor" && (
+          <li>
+            <Link
+              to="/home/consumer"
+              className={`${
+                location.pathname === "/home/consumer" &&
+                styles.active_class
+              }`}
+            >
+              Consumer
+            </Link>
+          </li>
+        )}
+        {user?.role === "Admin" &&
         <li>
-          <Link
-            to="/home/donorlist"
-            className={`${
-              location.pathname === "/home/donorlist" && styles.active_class
-            }`}
-          >
-            Donorlist
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/home/Hospitallist"
-            className={`${
-              location.pathname === "/home/Hospitallist" && styles.active_class
-            }`}
-          >
-            Hospitallist
-          </Link>
-        </li>
+            <Link
+              to="/home/organizationlist"
+              className={`${
+                location.pathname === "/home/organizationlist" &&
+                styles.active_class
+              }`}
+            >
+              Organization
+            </Link>
+          </li>
+        }
       </ul>
     </React.Fragment>
   );
