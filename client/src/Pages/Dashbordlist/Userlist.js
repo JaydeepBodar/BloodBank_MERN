@@ -5,6 +5,7 @@ import styles from "../../Style/Donor.module.css";
 import Donordata from "../../Component/Donordata";
 import useFetch from "../../Customhooks/useFetch";
 import { useLocation } from "react-router-dom";
+
 const Userlist = () => {
   const donor = useFetch(`${api}auth/donor`);
   const organization = useFetch(`${api}auth/organization`);
@@ -31,95 +32,112 @@ const Userlist = () => {
           case "/home/donorlist":
             return (
               <div className={styles.donor_data}>
-                <table>
-                  {donor?.data?.donor?.length !== 0 && (
-                    <tr style={{ textAlign: "center" }}>
-                      <th>No</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Address</th>
-                      <th>Joined us</th>
-                      <th>view</th>
-                    </tr>
-                  )}
-                  {location.pathname === "/home/donorlist" &&
-                    donor?.data?.donor?.map((donor, index) => {
-                      return (
-                        <Donordata donor={donor} key={index} sr={index + 1} />
-                      );
-                    })}
-                </table>
-                {donor?.data?.donor?.length === 0 && (
+                {!donor.loading && (
+                  <table>
+                    {donor?.data?.donor?.length !== 0 && (
+                      <tr style={{ textAlign: "center" }}>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Joined us</th>
+                        <th>view</th>
+                      </tr>
+                    )}
+                    {location.pathname === "/home/donorlist" &&
+                      donor?.data?.donor?.map((donor, index) => {
+                        return (
+                          <Donordata donor={donor} key={index} sr={index + 1} />
+                        );
+                      })}
+                  </table>
+                )}
+                {!donor.loading && donor?.data?.donor?.length === 0 && (
                   <div className={styles.user_record}>
                     <h3>No Recoard Found Of User</h3>
                   </div>
                 )}
+                {donor?.loading && <p>Loading...</p>}
               </div>
             );
           case "/home/organizationlist":
             return (
               <div className={styles.donor_data}>
-                <table>
-                  {organization?.data?.Organization?.length !== 0 && (
-                    <tr style={{ textAlign: "center" }}>
-                      <th>No</th>
-                      <th>Organization Name</th>
-                      <th>Email</th>
-                      <th>Address</th>
-                      <th>Joined us</th>
-                      <th>view</th>
-                    </tr>
-                  )}
-                  {location.pathname === "/home/organizationlist" &&
-                    organization?.data?.Organization?.map(
-                      (organization, index) => {
-                        return (
-                          <Donordata
-                            donor={organization}
-                            key={index}
-                            sr={index + 1}
-                          />
-                        );
-                      }
+                {!organization?.loading && (
+                  <table>
+                    {organization?.data?.Organization?.length !== 0 && (
+                      <tr style={{ textAlign: "center" }}>
+                        <th>No</th>
+                        <th>Organization Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Joined us</th>
+                        <th>view</th>
+                      </tr>
                     )}
-                </table>
-                {organization?.data?.Organization?.length === 0 && (
-                  <div className={styles.user_record}>
-                    <h3>No Recoard Found Of Organization</h3>
-                  </div>
+                    {location.pathname === "/home/organizationlist" &&
+                      organization?.data?.Organization?.map(
+                        (organization, index) => {
+                          return (
+                            <Donordata
+                              donor={organization}
+                              key={index}
+                              sr={index + 1}
+                            />
+                          );
+                        }
+                      )}
+                  </table>
                 )}
+                {!organization?.loading &&
+                  organization?.data?.Organization?.length === 0 && (
+                    <div className={styles.user_record}>
+                      <h3>No Recoard Found Of Organization</h3>
+                    </div>
+                  )}
+                {organization?.loading && <p>Loading...</p>}
               </div>
             );
           case "/home/Hospitallist":
             return (
-              <div className={hospital?.data?.hospital?.length !== 0 ? styles.donor_data : styles.no_record}>
-                <table>
-                  {hospital?.data?.hospital?.length !== 0 && (
-                    <tr style={{ textAlign: "center" }}>
-                      <th>No</th>
-                      <th>Hospital Name</th>
-                      <th>Email</th>
-                      <th>Address</th>
-                      <th>Joined us</th>
-                      <th>view</th>
-                    </tr>
-                  )}
-                  {location.pathname === "/home/Hospitallist" &&
-                    hospital?.data?.hospital?.map((hospital, index) => {
-                      return (
-                        <Donordata
-                          donor={hospital}
-                          key={index}
-                          sr={index + 1}
-                        />
-                      );
-                    })}
-                </table>
-                {hospital?.data?.hospital?.length === 0 && (
-                  <div className={styles.user_record}>
-                    <h3>No Recoard Found Of Hospital</h3>
-                  </div>
+              <div
+                className={
+                  hospital?.data?.hospital?.length !== 0
+                    ? styles.donor_data
+                    : styles.no_record
+                }
+              >
+                {!hospital.loading && (
+                  <table>
+                    {hospital?.data?.hospital?.length !== 0 && (
+                      <tr style={{ textAlign: "center" }}>
+                        <th>No</th>
+                        <th>Hospital Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Joined us</th>
+                        <th>view</th>
+                      </tr>
+                    )}
+                    {location.pathname === "/home/Hospitallist" &&
+                      hospital?.data?.hospital?.map((hospital, index) => {
+                        return (
+                          <Donordata
+                            donor={hospital}
+                            key={index}
+                            sr={index + 1}
+                          />
+                        );
+                      })}
+                  </table>
                 )}
+                {!hospital.loading &&
+                  hospital?.data?.hospital?.length === 0 && (
+                    <div className={styles.user_record}>
+                      <h3>No Recoard Found Of Hospital</h3>
+                    </div>
+                  )}
+                {hospital.loading && <p>Loading...</p>}
               </div>
             );
           default:

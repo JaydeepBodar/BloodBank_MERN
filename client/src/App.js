@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./custom.css";
 import React from "react";
 import Home from "./Pages/Home";
@@ -10,12 +9,12 @@ import Dashbord from "./Pages/Dashbord";
 import ProtectRoutes from "./utils/ProtectRoutes";
 import Loginprotect from "./utils/Loginprotect";
 import Error from "./Component/Error";
-import Inventory from "./Pages/Dashbordlist/Inventory";
-import Donorlist from "./Pages/Dashbordlist/Userlist";
+import Inventory from "./Pages/Inventory";
 import Hospitallist from "./Pages/Dashbordlist/Hospitallist";
 import Singleuser from "./Component/Singleuser";
 import Consumer from "./Pages/Dashbordlist/Consumer";
 import Userlist from "./Pages/Dashbordlist/Userlist";
+import Donorinventory from "./Pages/Donorinventory";
 function App() {
   return (
     <React.Fragment>
@@ -47,6 +46,7 @@ function App() {
               </Loginprotect>
             }
           />
+          {/* dashboard */}
           <Route
             path="dashboard"
             element={
@@ -55,14 +55,7 @@ function App() {
               </ProtectRoutes>
             }
           />
-          <Route
-            path="inventory"
-            element={
-              <ProtectRoutes>
-                <Inventory />
-              </ProtectRoutes>
-            }
-          />
+          {/* All user list */}
           <Route
             path="donorlist"
             element={
@@ -103,7 +96,48 @@ function App() {
               </ProtectRoutes>
             }
           />
-          <Route path="donor/:id" element={<Singleuser />} />
+          {/* hospital inventory */}
+          <Route
+            path="inventory"
+            element={
+              <ProtectRoutes>
+                <Inventory />
+              </ProtectRoutes>
+            }
+          />
+          <Route
+            path="hospitalinventory"
+            element={
+              <ProtectRoutes>
+                <Inventory />
+              </ProtectRoutes>
+            }
+          />
+          <Route
+            path="donorinventory"
+            element={
+              <ProtectRoutes>
+                <Inventory />
+              </ProtectRoutes>
+            }
+          />
+          <Route
+            path="donor/:id"
+            element={
+              <ProtectRoutes>
+                <Singleuser />
+              </ProtectRoutes>
+            }
+          />
+           {/* donor inventory */}
+        <Route
+          path="donordatainventory"
+          element={
+            <ProtectRoutes>
+              <Donorinventory />
+            </ProtectRoutes>
+          }
+        />
         </Route>
       </Routes>
     </React.Fragment>

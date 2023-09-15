@@ -14,9 +14,9 @@ const Sidebar = () => {
               return (
                 <li>
                   <Link
-                    to="/home/inventory"
+                    to="/home/donordatainventory"
                     className={`${
-                      location.pathname === "/home/inventory" &&
+                      location.pathname === "/home/donordatainventory" &&
                       styles.active_class
                     }`}
                   >
@@ -63,9 +63,9 @@ const Sidebar = () => {
               return (
                 <li>
                   <Link
-                    to="/home/donorlist"
+                    to="/home/donorinventory"
                     className={`${
-                      location.pathname === "/home/donorlist" &&
+                      location.pathname === "/home/donorinventory" &&
                       styles.active_class
                     }`}
                   >
@@ -97,9 +97,9 @@ const Sidebar = () => {
               return (
                 <li>
                   <Link
-                    to="/home/Hospitallist"
+                    to="/home/hospitalinventory"
                     className={`${
-                      location.pathname === "/home/Hospitallist" &&
+                      location.pathname === "/home/hospitalinventory" &&
                       styles.active_class
                     }`}
                   >

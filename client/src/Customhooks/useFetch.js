@@ -15,8 +15,8 @@ const useFetch = (url) => {
   useEffect(() => {
     axios
       .get(url, config)
-      .then((res) => setdata(res.data))
-      .catch((e) => seterror(e.response.data.message))
+      .then((res) => setdata(res?.data))
+      .catch((e) => seterror(e?.response?.data?.message))
       .finally(() => setloading(false));
   }, [loading]);
   return { data, loading, error };
