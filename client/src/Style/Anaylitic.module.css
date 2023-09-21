@@ -44,3 +44,15 @@
     padding: 8px 0;
     color: #f2f2f2;
 }
+.user_record {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+  }
+  .user_record h3 {
+    font-weight: 700;
+    font-size: 27px;
+    text-align: center;
+  }
