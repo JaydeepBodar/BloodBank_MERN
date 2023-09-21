@@ -52,12 +52,12 @@ const Login = () => {
           }
         })
         .catch((e) => {
-          if (e.response.status === 403) {
-            toast.error(e.response.data.message);
-          }else if(e.response.status === 401){
-              toast.error(e.response.data.message)
-          }else if(e.response.status === 405){
-            toast.error(e.response.data.message)
+          if (e?.response?.status === 403) {
+            toast.error(e?.response?.data?.message);
+          }else if(e?.response?.status === 401){
+              toast.error(e?.response?.data?.message)
+          }else if(e?.response?.status === 405){
+            toast.error(e?.response?.data?.message)
           }
         });
     }

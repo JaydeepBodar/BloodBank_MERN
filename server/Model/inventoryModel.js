@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const usermodel=require('./userModel')
+console.log("usermodelusermodel",usermodel)
 const inventorySchema = mongoose.Schema(
   {
     inventoryType: {
@@ -24,14 +26,14 @@ const inventorySchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: function () {
-        return this.inventoryType === "out";
+        return usermodel?.role === "Organization";
       },
     },
     Donor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: function () {
-        return this.inventoryType === "in";
+        return usermodel?.role === "Donor";
       },
     },
   },

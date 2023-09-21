@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import Layout from "../utils/Layout";
 import { GrAdd } from "react-icons/gr";
 import styles from "../Style/Donor.module.css";
@@ -7,22 +7,30 @@ import { api } from "../utils/api";
 import moment from "moment";
 import { AiFillEye } from "react-icons/ai";
 import { useLocation, Link } from "react-router-dom";
+import InventoryModal from "../Component/InventoryModal";
+import Tostify from "../Component/Tostify";
 const Inventory = () => {
   const inventory = useFetch(`${api}inventory/getInventory`);
   const donorinventory = useFetch(`${api}inventory/donorinventory`);
   const hospitalinventory = useFetch(`${api}inventory/hospitalInventory`);
   const location = useLocation();
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <Layout>
       <div>
         {location?.pathname === "/home/inventory" && (
-          <div>
-            <h3>
+          <div className={styles.add_inventory}>
+            <Tostify/>
+            <h3 onClick={handleShow}>
               <span>
                 <GrAdd />
               </span>
               Add Inventory
             </h3>
+            <InventoryModal show={show} handleClose={handleClose} />
           </div>
         )}
         {(() => {
@@ -143,7 +151,7 @@ const Inventory = () => {
             case "/home/hospitalinventory":
               return (
                 <React.Fragment>
-                  {hospitalinventory?.loading && <p>Loading</p>}
+                  {hospitalinventory?.loading && <p>Loading...</p>}
                   {!hospitalinventory?.loading &&
                     hospitalinventory?.data?.gethospitalInventory?.length === 0 && (
                       <div className={styles.user_record}>

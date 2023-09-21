@@ -16,6 +16,7 @@
 }
 .user_form {
   display: flex;
+  cursor: pointer;
   align-items: baseline;
   column-gap: 40px;
   position: relative;

@@ -32,9 +32,9 @@ const Userlist = () => {
           case "/home/donorlist":
             return (
               <div className={styles.donor_data}>
-                {!donor.loading && (
+                {!donor.loading && donor?.data?.donor?.length > 0 && (
                   <table>
-                    {donor?.data?.donor?.length !== 0 && (
+                    <thead>
                       <tr style={{ textAlign: "center" }}>
                         <th>No</th>
                         <th>Name</th>
@@ -43,13 +43,19 @@ const Userlist = () => {
                         <th>Joined us</th>
                         <th>view</th>
                       </tr>
-                    )}
-                    {location.pathname === "/home/donorlist" &&
-                      donor?.data?.donor?.map((donor, index) => {
-                        return (
-                          <Donordata donor={donor} key={index} sr={index + 1} />
-                        );
-                      })}
+                    </thead>
+                    <tbody>
+                      {location.pathname === "/home/donorlist" &&
+                        donor?.data?.donor?.map((donor, index) => {
+                          return (
+                            <Donordata
+                              donor={donor}
+                              key={index}
+                              sr={index + 1}
+                            />
+                          );
+                        })}
+                    </tbody>
                   </table>
                 )}
                 {!donor.loading && donor?.data?.donor?.length === 0 && (
@@ -63,32 +69,35 @@ const Userlist = () => {
           case "/home/organizationlist":
             return (
               <div className={styles.donor_data}>
-                {!organization?.loading && (
-                  <table>
-                    {organization?.data?.Organization?.length !== 0 && (
-                      <tr style={{ textAlign: "center" }}>
-                        <th>No</th>
-                        <th>Organization Name</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                        <th>Joined us</th>
-                        <th>view</th>
-                      </tr>
-                    )}
-                    {location.pathname === "/home/organizationlist" &&
-                      organization?.data?.Organization?.map(
-                        (organization, index) => {
-                          return (
-                            <Donordata
-                              donor={organization}
-                              key={index}
-                              sr={index + 1}
-                            />
-                          );
-                        }
-                      )}
-                  </table>
-                )}
+                {!organization?.loading &&
+                  organization?.data?.Organization?.length > 0 && (
+                    <table>
+                      <thead>
+                        <tr style={{ textAlign: "center" }}>
+                          <th>No</th>
+                          <th>Organization Name</th>
+                          <th>Email</th>
+                          <th>Address</th>
+                          <th>Joined us</th>
+                          <th>view</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {location.pathname === "/home/organizationlist" &&
+                          organization?.data?.Organization?.map(
+                            (organization, index) => {
+                              return (
+                                <Donordata
+                                  donor={organization}
+                                  key={index}
+                                  sr={index + 1}
+                                />
+                              );
+                            }
+                          )}
+                      </tbody>
+                    </table>
+                  )}
                 {!organization?.loading &&
                   organization?.data?.Organization?.length === 0 && (
                     <div className={styles.user_record}>
@@ -107,9 +116,9 @@ const Userlist = () => {
                     : styles.no_record
                 }
               >
-                {!hospital.loading && (
+                {!hospital.loading && hospital?.data?.hospital?.length > 0 && (
                   <table>
-                    {hospital?.data?.hospital?.length !== 0 && (
+                    <thead>
                       <tr style={{ textAlign: "center" }}>
                         <th>No</th>
                         <th>Hospital Name</th>
@@ -118,17 +127,19 @@ const Userlist = () => {
                         <th>Joined us</th>
                         <th>view</th>
                       </tr>
-                    )}
-                    {location.pathname === "/home/Hospitallist" &&
-                      hospital?.data?.hospital?.map((hospital, index) => {
-                        return (
-                          <Donordata
-                            donor={hospital}
-                            key={index}
-                            sr={index + 1}
-                          />
-                        );
-                      })}
+                    </thead>
+                    <tbody>
+                      {location.pathname === "/home/Hospitallist" &&
+                        hospital?.data?.hospital?.map((hospital, index) => {
+                          return (
+                            <Donordata
+                              donor={hospital}
+                              key={index}
+                              sr={index + 1}
+                            />
+                          );
+                        })}
+                    </tbody>
                   </table>
                 )}
                 {!hospital.loading &&

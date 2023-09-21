@@ -51,6 +51,9 @@
 .donor_data table {
   width: 100%;
 }
+.donor_data td{
+  padding: 5px;
+}
 .donor_data tr {
   text-align: center;
 }
@@ -104,4 +107,13 @@
   .donor_data::-webkit-scrollbar-thumb:hover {
     background: #0d6efd;
   }
+}
+/* indivisual donor */
+.add_inventory{
+  cursor: pointer;
+}
+.add_inventory h3{
+  display: flex;
+  align-items: baseline;
+  column-gap: 10px;
 }

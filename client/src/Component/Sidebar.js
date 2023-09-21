@@ -109,32 +109,50 @@ const Sidebar = () => {
               );
           }
         })()}
-        {user?.role === "Donor" && (
+        {(() => {
+          switch (user?.role) {
+            case "Admin":
+              return (
+                <li>
+                  <Link
+                    to="/home/organizationlist"
+                    className={`${
+                      location.pathname === "/home/organizationlist" &&
+                      styles.active_class
+                    }`}
+                  >
+                    Organization
+                  </Link>
+                </li>
+              );
+            case "Donor":
+              return (
+                <li>
+                  <Link
+                    to="/home/donororganization"
+                    className={`${
+                      location.pathname === "/home/donororganization" &&
+                      styles.active_class
+                    }`}
+                  >
+                    OrganizationList
+                  </Link>
+                </li>
+              );
+          }
+        })()}
+        {user?.role === "Organization" && (
           <li>
             <Link
-              to="/home/consumer"
+              to="/home/anyalitic"
               className={`${
-                location.pathname === "/home/consumer" &&
-                styles.active_class
+                location.pathname === "/home/anyalitic" && styles.active_class
               }`}
             >
-              Consumer
+              Blood data Anaylitic
             </Link>
           </li>
         )}
-        {user?.role === "Admin" &&
-        <li>
-            <Link
-              to="/home/organizationlist"
-              className={`${
-                location.pathname === "/home/organizationlist" &&
-                styles.active_class
-              }`}
-            >
-              Organization
-            </Link>
-          </li>
-        }
       </ul>
     </React.Fragment>
   );

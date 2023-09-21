@@ -1,0 +1,46 @@
+.Anylatic_wrapper{
+    padding-top: 40px;
+}
+.Anylatic_wrapper  .boxes_blood:nth-child(1) .Anaylitic_block{
+    background-color:#808080;
+}
+.Anylatic_wrapper  .boxes_blood:nth-child(2) .Anaylitic_block{
+    background-color: #b16a6a;
+}
+.Anylatic_wrapper  .boxes_blood:nth-child(3) .Anaylitic_block{
+    background-color: #008080;
+}
+.Anylatic_wrapper  .boxes_blood:nth-child(4) .Anaylitic_block{
+    background-color: #008000;
+}
+.Anylatic_wrapper  .boxes_blood:nth-child(5) .Anaylitic_block{
+    background-color:#2E8B57;
+}   
+.Anylatic_wrapper  .boxes_blood:nth-child(6) .Anaylitic_block{
+    background-color: #6495ED;
+}
+.Anylatic_wrapper  .boxes_blood:nth-child(7) .Anaylitic_block{
+    background-color: #D8BFD8;
+}
+.Anylatic_wrapper  .boxes_blood:nth-child(8) .Anaylitic_block{
+    background-color: #CD853F;
+}
+.Anaylitic_block{
+    text-align: center;
+    padding: 15px 0;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    margin-bottom: 15px;
+}
+.Anaylitic_block h4{
+    background-color: #f2f2f2;
+    padding: 3px 0;
+}
+.Anaylitic_block h6:nth-child(4){
+    background-color: #000;
+    padding: 8px 0;
+    color: #f2f2f2;
+}

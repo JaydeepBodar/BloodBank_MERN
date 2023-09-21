@@ -12,9 +12,10 @@ import Error from "./Component/Error";
 import Inventory from "./Pages/Inventory";
 import Hospitallist from "./Pages/Dashbordlist/Hospitallist";
 import Singleuser from "./Component/Singleuser";
-import Consumer from "./Pages/Dashbordlist/Consumer";
 import Userlist from "./Pages/Dashbordlist/Userlist";
 import Donorinventory from "./Pages/Donorinventory";
+import Donororganization from "./Component/Donororganization";
+import Anaylitic from "./Pages/Dashbordlist/Anaylitic";
 function App() {
   return (
     <React.Fragment>
@@ -88,14 +89,6 @@ function App() {
               </ProtectRoutes>
             }
           />
-          <Route
-            path="consumer"
-            element={
-              <ProtectRoutes>
-                <Consumer />
-              </ProtectRoutes>
-            }
-          />
           {/* hospital inventory */}
           <Route
             path="inventory"
@@ -129,15 +122,31 @@ function App() {
               </ProtectRoutes>
             }
           />
-           {/* donor inventory */}
-        <Route
-          path="donordatainventory"
-          element={
-            <ProtectRoutes>
-              <Donorinventory />
-            </ProtectRoutes>
-          }
-        />
+          {/* donor inventory */}
+          <Route
+            path="donordatainventory"
+            element={
+              <ProtectRoutes>
+                <Donorinventory />
+              </ProtectRoutes>
+            }
+          />
+          <Route
+            path="anyalitic"
+            element={
+              <ProtectRoutes>
+                <Anaylitic />
+              </ProtectRoutes>
+            }
+          />
+          <Route
+            path="donororganization"
+            element={
+              <ProtectRoutes>
+                <Donororganization />
+              </ProtectRoutes>
+            }
+          />
         </Route>
       </Routes>
     </React.Fragment>
