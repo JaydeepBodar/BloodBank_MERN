@@ -48,6 +48,7 @@ const InventoryModal = ({ show, handleClose }) => {
           bloodgroup,
           Donor: user?._id,
         };
+        break;
       case "Organization":
         data = {
           inventoryType,
@@ -57,7 +58,10 @@ const InventoryModal = ({ show, handleClose }) => {
           bloodgroup,
           Organization: user?._id,
         };
+        break;
+      default : return;
     }
+    console.log("data",data)
     axios
       .post(
         `${api}inventory/createInventory`, data,

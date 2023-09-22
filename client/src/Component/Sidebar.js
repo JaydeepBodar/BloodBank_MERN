@@ -24,7 +24,20 @@ const Sidebar = () => {
                   </Link>
                 </li>
               );
-
+            case "Hospital":
+              return (
+                <li>
+                  <Link
+                    to="/home/hospitaloutinventory"
+                    className={`${
+                      location.pathname === "/home/hospitaloutinventory" &&
+                      styles.active_class
+                    }`}
+                  >
+                    Inventory
+                  </Link>
+                </li>
+              );
             case "Organization":
               return (
                 <li>
@@ -132,6 +145,20 @@ const Sidebar = () => {
                     to="/home/donororganization"
                     className={`${
                       location.pathname === "/home/donororganization" &&
+                      styles.active_class
+                    }`}
+                  >
+                    OrganizationList
+                  </Link>
+                </li>
+              );
+            case "Hospital":
+              return (
+                <li>
+                  <Link
+                    to="/home/hospitalorganization"
+                    className={`${
+                      location.pathname === "/home/hospitalorganization" &&
                       styles.active_class
                     }`}
                   >

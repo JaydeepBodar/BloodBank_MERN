@@ -35,13 +35,8 @@
 @media screen and (max-width: 768px) {
   .user {
     width: 100%;
-    max-width: 100%;
-    left: 0;
-    transform: translate(0, -50%);
-    -webkit-transform: translate(0, -50%);
-    -moz-transform: translate(0, -50%);
-    -ms-transform: translate(0, -50%);
-    -o-transform: translate(0, -50%);
+    max-width: 95%;
+    margin: 0 auto;
   }
 }
 /* donor list component */

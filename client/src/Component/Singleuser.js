@@ -8,6 +8,7 @@ import moment from "moment";
 import { Button } from "react-bootstrap";
 import styles from "../Style/Donor.module.css";
 import useFetch from "../Customhooks/useFetch";
+import LoadingOverlay from "react-loading-overlay";
 const Singleuser = () => {
   const { id } = useParams();
   const { token, user } = GlobalContext();
@@ -63,92 +64,97 @@ const Singleuser = () => {
   // console.log("donor",donor)
   // const { name, email, address, createdAt } = data?.singledonor;
   return (
-    <Layout>
-      {loading && <p>loading</p>}
-      {!loading && (
-        <div className={styles.user}>
-          {(() => {
-            switch (data?.singledonor?.role) {
-              case "Donor":
-                return <h4>Name : {data?.singledonor?.name}</h4>;
-              case "Hospital":
-                return (
-                  <React.Fragment>
-                    <h4>Hospital Name : {data?.singledonor?.hospitalName}</h4>
-                    <h4>
-                      Website :{" "}
-                      <Link to="https://www.google.co.in/">
-                        {data?.singledonor?.website}
-                      </Link>
-                    </h4>
-                  </React.Fragment>
-                );
-              case "Organization":
-                return (
-                  <React.Fragment>
-                    <h4>
-                      Organization Name : {data?.singledonor?.organizationName}
-                    </h4>
-                    <h4>
-                      Website :{" "}
-                      <Link to="https://www.google.co.in/">
-                        {data?.singledonor?.website}
-                      </Link>
-                    </h4>
-                  </React.Fragment>
-                );
-              default:
-                return null;
-            }
-          })()}
-          <h4>Email : {data?.singledonor?.email}</h4>
-          <h4>Address : {data?.singledonor?.address}</h4>
-          <h4>
-            Joined us :{" "}
-            {moment(data?.singledonor?.createdAt).format("Do MMM YY")}
-          </h4>
-
-          {user?.role === "Admin" &&
-            (() => {
+    <LoadingOverlay active={loading} spinner text="Loading">
+      <Layout>
+        {!loading && (
+          <div className={styles.user}>
+            {(() => {
               switch (data?.singledonor?.role) {
                 case "Donor":
-                  return (
-                    <Link to="/home/donorlist" style={{ color: "#f2f2f2" }}>
-                      <Button variant="primary">Back</Button>
-                    </Link>
-                  );
+                  return <h4>Name : {data?.singledonor?.name}</h4>;
                 case "Hospital":
                   return (
-                    <Link to="/home/Hospitallist" style={{ color: "#f2f2f2" }}>
-                      <Button variant="primary">Back</Button>
-                    </Link>
+                    <React.Fragment>
+                      <h4>Hospital Name : {data?.singledonor?.hospitalName}</h4>
+                      <h4>
+                        Website :{" "}
+                        <Link to={data?.singledonor?.website}>
+                          {data?.singledonor?.website}
+                        </Link>
+                      </h4>
+                    </React.Fragment>
                   );
                 case "Organization":
                   return (
-                    <Link
-                      to="/home/organizationlist"
-                      style={{ color: "#f2f2f2" }}
-                    >
-                      <Button variant="primary">Back</Button>
-                    </Link>
+                    <React.Fragment>
+                      <h4>
+                        Organization Name :{" "}
+                        {data?.singledonor?.organizationName}
+                      </h4>
+                      <h4>
+                        Website :{" "}
+                        <Link to={data?.singledonor?.website}>
+                          {data?.singledonor?.website}
+                        </Link>
+                      </h4>
+                    </React.Fragment>
                   );
                 default:
                   return null;
               }
             })()}
-          {user?.role === "Organization" && (
-            <Link to="/home/inventory" style={{ color: "#f2f2f2" }}>
-              <Button variant="primary">Back</Button>
-            </Link>
-          )}
-          {user?.role === "Admin" && (
-            <Button variant="danger" className="mx-2" onClick={deleteRecord}>
-              Delete
-            </Button>
-          )}
-        </div>
-      )}
-    </Layout>
+            <h4>Email : {data?.singledonor?.email}</h4>
+            <h4>Address : {data?.singledonor?.address}</h4>
+            <h4>
+              Joined us :{" "}
+              {moment(data?.singledonor?.createdAt).format("Do MMM YY")}
+            </h4>
+
+            {user?.role === "Admin" &&
+              (() => {
+                switch (data?.singledonor?.role) {
+                  case "Donor":
+                    return (
+                      <Link to="/home/donorlist" style={{ color: "#f2f2f2" }}>
+                        <Button variant="primary">Back</Button>
+                      </Link>
+                    );
+                  case "Hospital":
+                    return (
+                      <Link
+                        to="/home/Hospitallist"
+                        style={{ color: "#f2f2f2" }}
+                      >
+                        <Button variant="primary">Back</Button>
+                      </Link>
+                    );
+                  case "Organization":
+                    return (
+                      <Link
+                        to="/home/organizationlist"
+                        style={{ color: "#f2f2f2" }}
+                      >
+                        <Button variant="primary">Back</Button>
+                      </Link>
+                    );
+                  default:
+                    return null;
+                }
+              })()}
+            {user?.role === "Organization" && (
+              <Link to="/home/inventory" style={{ color: "#f2f2f2" }}>
+                <Button variant="primary">Back</Button>
+              </Link>
+            )}
+            {user?.role === "Admin" && (
+              <Button variant="danger" className="mx-2" onClick={deleteRecord}>
+                Delete
+              </Button>
+            )}
+          </div>
+        )}
+      </Layout>
+    </LoadingOverlay>
   );
 };
 

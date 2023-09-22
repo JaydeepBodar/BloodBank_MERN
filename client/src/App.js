@@ -147,6 +147,22 @@ function App() {
               </ProtectRoutes>
             }
           />
+          <Route
+            path="hospitalorganization"
+            element={
+              <ProtectRoutes>
+                <Donororganization />
+              </ProtectRoutes>
+            }
+          />
+          <Route
+            path="hospitaloutinventory"
+            element={
+              <ProtectRoutes>
+                <Donorinventory />
+              </ProtectRoutes>
+            }
+          />
         </Route>
       </Routes>
     </React.Fragment>

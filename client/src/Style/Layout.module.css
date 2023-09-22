@@ -1,0 +1,12 @@
+.sidebardata{
+    background-color: #6c757d;
+}
+@media screen and (min-width:768px){
+    .sidebardata{
+        z-index: 5;
+        position: fixed;
+        top: 80px;
+        left: 0;
+        bottom: 0;
+    } 
+}
