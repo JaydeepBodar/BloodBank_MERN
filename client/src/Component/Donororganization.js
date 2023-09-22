@@ -56,7 +56,7 @@ const Donororganization = () => {
                                   createdAt,
                                 } = val;
                                 return (
-                                  <tr>
+                                  <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{organizationName}</td>
                                     <td>{email}</td>
@@ -119,7 +119,7 @@ const Donororganization = () => {
                                   createdAt,
                                 } = val;
                                 return (
-                                  <tr>
+                                  <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{organizationName}</td>
                                     <td>{email}</td>
