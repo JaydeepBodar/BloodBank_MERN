@@ -8,10 +8,12 @@ import InventoryModal from "../Component/InventoryModal";
 import Tostify from "../Component/Tostify";
 import LoadingOverlay from "react-loading-overlay";
 import { GlobalContext } from "../Context/Authcontext";
-import moment from 'moment'
+import moment from "moment";
 const Donorinventory = () => {
   const donorinventory = useFetch(`${api}inventory/indivisualdonor`);
-  const hospitalinventory=useFetch(`${api}inventory/indivisualhospitalinventory`)
+  const hospitalinventory = useFetch(
+    `${api}inventory/indivisualhospitalinventory`
+  );
   const { user } = GlobalContext();
   const [show, setShow] = useState(false);
 
@@ -24,8 +26,8 @@ const Donorinventory = () => {
           case "Donor":
             return (
               <LoadingOverlay
-                active={donorinventory?.loading}
                 spinner
+                active={donorinventory?.loading}
                 text="Loading"
               >
                 <Layout>
@@ -65,10 +67,17 @@ const Donorinventory = () => {
                             </tr>
                           </thead>
                           <tbody>
-                          {donorinventory?.data?.donorInventory?.map(
+                            {donorinventory?.data?.donorInventory?.map(
                               (value, index) => {
-                                console.log("value",value)
-                                const { inventoryType, bloodgroup, Quantity, Organization, Donor,createdAt }=value
+                                console.log("value", value);
+                                const {
+                                  inventoryType,
+                                  bloodgroup,
+                                  Quantity,
+                                  Organization,
+                                  Donor,
+                                  createdAt,
+                                } = value;
                                 return (
                                   <tr key={index}>
                                     <td>{index + 1}</td>
@@ -101,7 +110,8 @@ const Donorinventory = () => {
               >
                 <Layout>
                   {!hospitalinventory?.loading &&
-                    hospitalinventory?.data?.hospitalinventory?.length === 0 && (
+                    hospitalinventory?.data?.hospitalinventory?.length ===
+                      0 && (
                       <div className={style.user_record}>
                         <h3>No Recoard Found Of Inventory Record</h3>
                       </div>
@@ -126,8 +136,15 @@ const Donorinventory = () => {
                           <tbody>
                             {hospitalinventory?.data?.hospitalinventory?.map(
                               (value, index) => {
-                                console.log("value",value)
-                                const { inventoryType, bloodgroup, Quantity, Organization, Hospital,createdAt }=value
+                                console.log("value", value);
+                                const {
+                                  inventoryType,
+                                  bloodgroup,
+                                  Quantity,
+                                  Organization,
+                                  Hospital,
+                                  createdAt,
+                                } = value;
                                 return (
                                   <tr key={index}>
                                     <td>{index + 1}</td>
@@ -151,7 +168,8 @@ const Donorinventory = () => {
                 </Layout>
               </LoadingOverlay>
             );
-          default : return null
+          default:
+            return null;
         }
       })()}
     </React.Fragment>
