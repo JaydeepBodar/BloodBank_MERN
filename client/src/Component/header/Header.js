@@ -37,7 +37,7 @@ const Header = () => {
                 <h4 className={styles.user_data} onClick={handleShow}>
                   {user ? newdata : <span>NA</span>}
                 </h4>
-                <Modaldata handleClose={handleClose} show={show}/>
+                {user && <Modaldata handleClose={handleClose} show={show}/>}
                 {user && <h6 className={styles.user_role}>{user?.role}</h6>}
               </div>
               {user && (

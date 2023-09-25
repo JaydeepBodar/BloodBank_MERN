@@ -41,19 +41,19 @@ const Anaylitic = () => {
                         <h4>{blood}</h4>
                         <h6>
                           Total in :-{" "}
-                          {!totalIn[0]?.total ? (
+                          {!totalIn ? (
                             <span>0</span>
                           ) : (
-                            totalIn[0]?.total
+                            totalIn
                           )}
                           ML
                         </h6>
                         <h6>
                           Total out :-{" "}
-                          {!totalOut[0]?.total ? (
+                          {!totalOut ? (
                             <span>0</span>
                           ) : (
-                            totalOut[0]?.total
+                            totalOut
                           )}
                           ML
                         </h6>

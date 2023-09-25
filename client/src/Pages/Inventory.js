@@ -31,6 +31,7 @@ const Inventory = () => {
                 active={inventory?.loading}
               >
                 <Layout>
+                  <Tostify />
                   <div className={styles.add_inventory}>
                     <h3 onClick={handleShow}>
                       <span>
@@ -99,6 +100,7 @@ const Inventory = () => {
                 text="Loading"
                 active={donorinventory?.loading}
               >
+                <Tostify />
                 <Layout>
                   {!donorinventory?.loading &&
                     donorinventory?.data?.getDonorInventory?.length === 0 && (
