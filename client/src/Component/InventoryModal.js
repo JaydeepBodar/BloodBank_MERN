@@ -48,6 +48,9 @@ const InventoryModal = ({ show, handleClose }) => {
           bloodgroup,
           Donor: user?._id,
         };
+        if(!inventoryType || !Organization || !email || !Quantity || !bloodgroup ){
+          toast.error("All Field are Required")
+        }
         break;
       case "Organization":
         data = {
@@ -58,6 +61,9 @@ const InventoryModal = ({ show, handleClose }) => {
           bloodgroup,
           Organization: user?._id,
         };
+        if(!inventoryType || !Hospital || !email || !Quantity || !bloodgroup){
+          toast.error("All Field are Required")
+        }
         break;
       default : return;
     }
@@ -203,7 +209,7 @@ const InventoryModal = ({ show, handleClose }) => {
                 value={Quantity}
                 onChange={handleChange}
                 name="Quantity"
-                type="text"
+                type="number"
               />
             </div>
             <Button type="submit" style={{ marginTop: "10px" }}>

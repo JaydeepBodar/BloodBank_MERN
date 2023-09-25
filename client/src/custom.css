@@ -78,3 +78,9 @@ li {
       right: 0 !important;
   }       
 } 
+/* disable arrows from Number input  */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

@@ -47,26 +47,37 @@ const Signup = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    if(!role){
+      toast.error("User Role is Required")
+    }
     let data;
     switch (role) {
       case "Donor":
         data = { name, email, password, role, address };
+        if(!name || !email || !password || !address){
+          toast.error("All Field are Required")
+        }
         break;
       case "Organization":
         data = { email, password, role, address, website, organizationName };
+        if(!email || !password || !address || !website || !organizationName){
+          toast.error("All Field are Required")
+        }
         break;
       case "Admin":
         data = { name, email, password, role, address };
+        if(!name || !email || !password || !address);{
+          toast.error("All Field are Required")
+        }
         break;
       case "Hospital":
         data = { hospitalName, website, email, password, role, address };
+        if(!hospitalName || !website || !email || !password || !address){
+          toast.error("All Field are Required")
+        }
         break;
       default:
         return;
-    }
-    if (!data) {
-      toast.error("All field are Required");
     }
     console.log("daaaaaaaaaaaaaaaaa", data);
     axios
