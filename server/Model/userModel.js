@@ -16,6 +16,16 @@ const UserSchema = new mongoose.Schema(
         }
       },
     },
+    bloodgroup:{
+      type:String,
+      required:()=>{
+        if(this.role === "Donor"){
+          return true;
+        }else{
+          return false
+        }
+      }
+    },
     hospitalName: {
       type: String,
       required: () => {

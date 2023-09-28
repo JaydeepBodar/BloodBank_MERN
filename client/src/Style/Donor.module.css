@@ -112,3 +112,19 @@
   align-items: baseline;
   column-gap: 10px;
 }
+/*  */
+.search_data{
+  margin: 10px 0;
+}
+.search_data input{
+  width: 100%;
+  padding: 8px 15px;
+  outline: none;
+  border: none;
+  background-color: #f2f2f2;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}

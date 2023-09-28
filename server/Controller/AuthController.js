@@ -11,6 +11,7 @@ const registerUser = async (req, res) => {
     address,
     password,
     hospitalName,
+    bloodgroup  
   } = req.body;
   // try {
   const existingUser = await userModel.findOne({ email: email });
@@ -21,7 +22,7 @@ const registerUser = async (req, res) => {
     let data;
     switch (role) {
       case "Donor":
-        data = { name, email, password:encryptpassword, role, address };
+        data = { name, email, password:encryptpassword, role, address,bloodgroup };
         break;
       case "Organization":
         data = { email, password:encryptpassword, role, address, website, organizationName };
@@ -71,18 +72,18 @@ const loginUser = async (req, res) => {
   }
 };
 const getUser = async (req, res) => {
-  const user = await userModel.find({_id:req.user._id});
+  const user = await userModel.find({_id:req.user._id}).sort({ createdAt: -1 })
   res.json(user);
 };
 const getDonor=async(req,res)=>{
-  const donor=await userModel.find({role:"Donor"})
+  const donor=await userModel.find({role:"Donor"}).sort({ createdAt: -1 })
   if(!donor){
     res.status(205).json({message: "User not found"})
   }
   res.status(200).json({donor})
 }
 const getSingleuser=async(req,res)=>{
-  const singledonor=await userModel.findById({_id:req.params.id})
+  const singledonor=await userModel.findById({_id:req.params.id}).sort({ createdAt: -1 })
   if(!singledonor){
     res.status(205).json({message: "User not found"})
   }
@@ -90,18 +91,18 @@ const getSingleuser=async(req,res)=>{
 }
 const getOrganization=async(req,res)=>{
   try{
-    const Organization=await userModel.find({role:"Organization"})
+    const Organization=await userModel.find({role:"Organization"}).sort({ createdAt: -1 })
     res.status(200).json({Organization})
   }catch(e){
-
+    res.status(500).json({message : "Internal server error"})
   }
 }
 const getHospital=async(req,res)=>{
   try{
-    const hospital=await userModel.find({role:"Hospital"})
+    const hospital=await userModel.find({role:"Hospital"}).sort({ createdAt: -1 })
     res.status(200).json({hospital})
   }catch(e){
-
+    res.status(500).json({message : "Internal server error"})
   }
 }
 const deleteSingleuser=async(req,res)=>{
@@ -109,7 +110,7 @@ const deleteSingleuser=async(req,res)=>{
     const deleteuser=await userModel.findByIdAndDelete({_id:req.params.id})
     res.status(200).json({message:"Succsessfully delete record"})
   }catch(e){
-    
+    res.status(500).json({message : "Internal server error"})
   }
 }
 module.exports = {

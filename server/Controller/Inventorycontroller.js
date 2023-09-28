@@ -77,25 +77,18 @@ const createInventory = async (req, res) => {
           res.status(200).json({ message: "Succsessfully add Blood Record" });
         }
       } else if (inventoryType === "in") {
-        const checkbloodgroup = await inventoryModel.find({
-          Donor: req.user.userId,
+        const checkbloodgroup = await userModel.find({
+          _id: req.user.userId,
         });
-        if (checkbloodgroup?.length === 0) {
+        console.log("checkbloodgroup", checkbloodgroup);
+        if (req.body.bloodgroup === checkbloodgroup[0]?.bloodgroup) {
           const inventory = await inventoryModel.create(req.body);
           // console.log("inventory", inventory);
           res.status(201).json({ message: "Succsessfully add Blood Record" });
         } else {
-          if (req.body.bloodgroup === checkbloodgroup[0]?.bloodgroup) {
-            const inventory = await inventoryModel.create(req.body);
-            // console.log("inventory", inventory);
-            res.status(201).json({ message: "Succsessfully add Blood Record" });
-          } else {
-            res
-              .status(403)
-              .json({
-                message: `Your blood group is ${checkbloodgroup[0]?.bloodgroup} so please enter correct one`,
-              });
-          }
+          res.status(403).json({
+            message: `Your blood group is ${checkbloodgroup[0]?.bloodgroup} so please enter correct one`,
+          });
         }
       }
     }
@@ -108,47 +101,143 @@ const createInventory = async (req, res) => {
 };
 const getInventory = async (req, res) => {
   try {
+    const blooddata = {
+      inventoryType: req.query.inventoryType,
+      bloodgroup: req.query.bloodgroup,
+    };
+    // console.log("firstblooddatablooddata", blooddata);
+    const data =
+      blooddata?.bloodgroup !== undefined ||
+      blooddata?.inventoryType !== undefined;
+    // console.log("bloodblooddata === undefined", data);
+    const query = data
+      ? {
+          $and: [
+            { Organization: req.user.userId },
+            {
+              $or: [
+                {
+                  inventoryType: {
+                    $regex: blooddata?.inventoryType || " ",
+                    $options: "i",
+                  },
+                },
+                {
+                  bloodgroup: {
+                    $regex: blooddata?.bloodgroup || " ",
+                    $options: "i",
+                  },
+                },
+              ],
+            },
+          ],
+        }
+      : { Organization: req.user.userId };
+    // { inventoryType: "in" },
+    // { inventoryType: "out" },
+
+    // console.log("firstqueryquery", query);
+    const itemperpage = 10;
+    const currentpage = Number(req.query.page) || 1;
+    const totalskipitem = itemperpage * (currentpage - 1);
+    const totalitem = await inventoryModel.find(query).countDocuments();
     const allInventory = await inventoryModel
-      .find({ Organization: req.user.userId })
+      .find(query)
       .populate("Hospital")
-      .populate("Donor");
+      .populate("Donor")
+      .limit(itemperpage)
+      .skip(totalskipitem)
+      .sort({ createdAt: -1 });
     // console.log("user", req.user.userId);
-    res.status(200).json({ allInventory });
+    res.status(200).json({ allInventory, totalitem, itemperpage });
   } catch (e) {
     res.status(400).json({ message: "Not get Inventorey" });
   }
 };
 const getDonorInventory = async (req, res) => {
+  const { bloodgroup, page } = req.query;
+  const querydata =
+    bloodgroup !== undefined
+      ? {
+          $and: [
+            { Organization: req.user.userId },
+            { inventoryType: "in" },
+            {
+              bloodgroup: {
+                $regex: bloodgroup || " ",
+                $options: "i",
+              },
+            },
+          ],
+        }
+      : {
+          $and: [{ Organization: req.user.userId }, { inventoryType: "in" }],
+        };
+  const itemperpage = 10;
+  const currentpage = Number(page) || 1;
+  const skipage = itemperpage * (currentpage - 1);
+  const totalitem = await inventoryModel.find(querydata).countDocuments();
   const getDonorInventory = await inventoryModel
-    .find({
-      $and: [{ Organization: req.user.userId }, { inventoryType: "in" }],
+    .find(querydata)
+    .populate("Donor")
+    .limit(itemperpage)
+    .skip(skipage)
+    .sort({ createdAt: -1 })
+    .then((data) => {
+      return data;
     })
-    .populate("Donor");
-  res.status(200).json({ getDonorInventory });
+    .catch((e) => console.log("err", e));
+  res.status(200).json({ getDonorInventory, totalitem, itemperpage });
 };
 const getIndivisualdonorinventory = async (req, res) => {
   const donorInventory = await inventoryModel
     .find({ Donor: req.user.userId })
     .populate("Donor")
-    .populate("Organization");
+    .populate("Organization")
+    .sort({ createdAt: -1 });
   if (!donorInventory) {
     res.status(400).json({ message: "No Donor data found" });
   }
   res.status(200).json({ donorInventory });
 };
 const hospitalInventory = async (req, res) => {
+  const { bloodgroup, page } = req.query;
+  const querydata =
+    bloodgroup !== undefined
+      ? {
+          $and: [
+            { Organization: req.user.userId },
+            { inventoryType: "out" },
+            {
+              bloodgroup: {
+                $regex: bloodgroup || " ",
+                $options: "i",
+              },
+            },
+          ],
+        }
+      : {
+          $and: [{ Organization: req.user.userId }, { inventoryType: "out" }],
+        };
+  const itemperpage = 10;
+  const currentpage = Number(page) || 1;
+  const skipitem = itemperpage * (currentpage - 1);
+  const totalitem=await inventoryModel.find(querydata).countDocuments()
   const gethospitalInventory = await inventoryModel
-    .find({
-      $and: [{ Organization: req.user.userId }, { inventoryType: "out" }],
-    })
-    .populate("Hospital");
-  res.status(200).json({ gethospitalInventory });
+    .find(querydata)
+    .populate("Hospital")
+    .skip(skipitem)
+    .limit(itemperpage)
+    .sort({ createdAt: -1 });
+  res.status(200).json({ gethospitalInventory,itemperpage,totalitem });
 };
 const getOrganizationbydonor = async (req, res) => {
   const getOrganization = await inventoryModel.distinct("Organization", {
     Donor: req.user.userId,
   });
-  const getDonorOrganization = await userModel.find({ _id: getOrganization });
+  const getDonorOrganization = await userModel
+    .find({ _id: getOrganization })
+    .sort({ createdAt: -1 });
   console.log("firstdata", getDonorOrganization);
   res.status(200).json({ getDonorOrganization });
 };
@@ -156,16 +245,19 @@ const getOrganizationbyhospital = async (req, res) => {
   const getOrganization = await inventoryModel.distinct("Organization", {
     Hospital: req.user.userId,
   });
-  const getHospitalorganization = await userModel.find({
-    _id: getOrganization,
-  });
+  const getHospitalorganization = await userModel
+    .find({
+      _id: getOrganization,
+    })
+    .sort({ createdAt: -1 });
   res.status(200).json({ getHospitalorganization });
 };
 const getHospitalindiviusalinventory = async (req, res) => {
   const hospitalinventory = await inventoryModel
     .find({ Hospital: req.user.userId })
     .populate("Hospital")
-    .populate("Organization");
+    .populate("Organization")
+    .sort({ createdAt: -1 });
   if (!hospitalInventory) {
     res.status(400).json({ message: "No hospital data found" });
   }

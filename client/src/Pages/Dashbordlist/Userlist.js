@@ -43,6 +43,7 @@ const Userlist = () => {
                             <th>Name</th>
                             <th>Email</th>
                             <th>Address</th>
+                            <th>Blood group</th>
                             <th>Joined us</th>
                             <th>view</th>
                           </tr>

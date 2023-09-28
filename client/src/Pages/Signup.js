@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import axios from "axios";
 import { api } from "../utils/api";
+import { bloodgroupdata } from "../utils/bloodgroup";
 import { toast } from "react-toastify";
 import Tostify from "../Component/Tostify";
 const Signup = () => {
@@ -21,6 +22,7 @@ const Signup = () => {
     email: "",
     password: "",
     role: "",
+    bloodgroup:""
   });
   const {
     name,
@@ -31,6 +33,7 @@ const Signup = () => {
     hospitalName,
     website,
     address,
+    bloodgroup
   } = Input;
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,47 +50,47 @@ const Signup = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(!role){
-      toast.error("User Role is Required")
+    if (!role) {
+      toast.error("User Role is Required");
     }
     let data;
     switch (role) {
       case "Donor":
-        data = { name, email, password, role, address };
-        if(!name || !email || !password || !address){
-          toast.error("All Field are Required")
+        data = { name, email, password, role, address,bloodgroup };
+        if (!name || !email || !password || !address || !bloodgroup) {
+          toast.error("All Field are Required");
         }
         break;
       case "Organization":
         data = { email, password, role, address, website, organizationName };
-        if(!email || !password || !address || !website || !organizationName){
-          toast.error("All Field are Required")
+        if (!email || !password || !address || !website || !organizationName) {
+          toast.error("All Field are Required");
         }
         break;
-      case "Admin":
-        data = { name, email, password, role, address };
-        if(!name || !email || !password || !address);{
-          toast.error("All Field are Required")
-        }
-        break;
+      // case "Admin":
+      //   data = { name, email, password, role, address };
+      //   if(!name || !email || !password || !address);{
+      //     toast.error("All Field are Required")
+      //   }
+      //   break;
       case "Hospital":
         data = { hospitalName, website, email, password, role, address };
-        if(!hospitalName || !website || !email || !password || !address){
-          toast.error("All Field are Required")
+        if (!hospitalName || !website || !email || !password || !address) {
+          toast.error("All Field are Required");
         }
         break;
       default:
         return;
     }
-    console.log("daaaaaaaaaaaaaaaaa", data);
+    // console.log("daaaaaaaaaaaaaaaaa", data);
     axios
       .post(`${api}auth/register`, data)
       .then((res) => {
-          console.log("res", res);
-          localStorage.setItem("user",JSON.stringify(res.data.user))
-          localStorage.setItem("token", JSON.stringify(res.data.token))
-          toast.success(res.data.message)
-          navigate("/home/dashboard")
+        console.log("res", res);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("token", JSON.stringify(res.data.token));
+        toast.success(res.data.message);
+        navigate("/home/dashboard");
       })
       .catch((e) => toast.warn(e.response.data.message));
   };
@@ -140,7 +143,7 @@ const Signup = () => {
                       checked={role === "Organization"}
                     />
                   </div>
-                  <div className={styles.group_form}>
+                  {/* <div className={styles.group_form}>
                     <InputType
                       value="Admin"
                       onChange={handleChange}
@@ -149,9 +152,9 @@ const Signup = () => {
                       label="Admin"
                       checked={role === "Admin"}
                     />
-                  </div>
+                  </div> */}
                 </div>
-                {role === "Admin" && (
+                {/* {role === "Admin" && (
                   <div className={styles.form_group}>
                     <InputType
                       label="Name"
@@ -162,18 +165,39 @@ const Signup = () => {
                       placeholder="Enter Your Name..."
                     />
                   </div>
-                )}
+                )} */}
                 {role === "Donor" && (
-                  <div className={styles.form_group}>
-                    <InputType
-                      label="Name"
-                      type="text"
-                      value={name}
+                  <React.Fragment>
+                    <div className={styles.form_group}>
+                      <InputType
+                        label="Name"
+                        type="text"
+                        value={name}
+                        onChange={handleChange}
+                        name="name"
+                        placeholder="Enter Your Name..."
+                      />
+                    </div>
+                    <div className={styles.dropdown_add}>
+                    <select
+                      value={bloodgroup}
                       onChange={handleChange}
-                      name="name"
-                      placeholder="Enter Your Name..."
-                    />
-                  </div>
+                      name="bloodgroup"
+                    >
+                      <option hidden>Select Bloodgroup...</option>
+                      {bloodgroupdata?.map((val, index) => {
+                        return (
+                          <option
+                            name="bloodgroup"
+                            value={val?.value}
+                            key={index}
+                          >
+                            {val?.label}
+                          </option>
+                        );
+                      })}
+                    </select></div>
+                  </React.Fragment>
                 )}
                 {role === "Organization" && (
                   <React.Fragment>

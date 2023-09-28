@@ -1,35 +1,88 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../utils/Layout";
 import { GrAdd } from "react-icons/gr";
 import styles from "../Style/Donor.module.css";
-import useFetch from "../Customhooks/useFetch";
 import { api } from "../utils/api";
-import moment from "moment";
-import { AiFillEye } from "react-icons/ai";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import InventoryModal from "../Component/InventoryModal";
 import Tostify from "../Component/Tostify";
 import LoadingOverlay from "react-loading-overlay";
+import axios from "axios";
+import { GlobalContext } from "../Context/Authcontext";
+import Allinventory from "../Component/Inventory/Allinventory";
+import Donorinventory from "../Component/Inventory/Donorinventory";
+import Hospitalinventory from "../Component/Inventory/Hospitalinventory";
 const Inventory = () => {
-  const inventory = useFetch(`${api}inventory/getInventory`);
-  const donorinventory = useFetch(`${api}inventory/donorinventory`);
-  const hospitalinventory = useFetch(`${api}inventory/hospitalInventory`);
+  const { token } = GlobalContext();
   const location = useLocation();
+  // console.log("search", search?.length);
+  const [inventory, setinventory] = useState([]);
+  const [donorinventory, setdonorinventory] = useState([]);
+  const [hospitalinventory, sethospitalinventory] = useState([]);
+  const [loading, setloading] = useState(true);
+  const [page, setpage] = useState(1);
+  const [search, setsearch] = useState("");
+  const limit = 10;
   const [show, setShow] = useState(false);
-
+  // console.log("inventory?.totalitem", inventory?.totalitem);
+  // const querydata=new URLSearchParams(location.search)
+  // console.log("sgdgdgsgfdbddbd",querydata.get("page"))
+  const config = {
+    headers: {
+      Authorization: token,
+    },
+  };
+  useEffect(() => {
+    const apiurl = search
+      ? `${api}inventory/getInventory?inventoryType=${search}&bloodgroup=${search}&page=${page}`
+      : `${api}inventory/getInventory?page=${page}`;
+    axios
+      .get(apiurl, config)
+      .then((res) => setinventory(res.data))
+      .catch((e) => console.log("eeee", e))
+      .finally(() => setloading(false));
+  }, [loading, search, location, page]);
+  useEffect(() => {
+    const apiurl = search
+      ? `${api}inventory/donorinventory?bloodgroup=${search}&page=${page}`
+      : `${api}inventory/donorinventory?page=${page}`;
+    axios
+      .get(apiurl, config)
+      .then((res) => setdonorinventory(res.data))
+      .catch((e) => console.log("eeee", e))
+      .finally(() => setloading(false));
+  }, [loading, search, location, page]);
+  useEffect(() => {
+    const apiurl = search
+      ? `${api}inventory/hospitalInventory?bloodgroup=${search}&page=${page}`
+      : `${api}inventory/hospitalInventory?page=${page}`;
+    axios
+      .get(apiurl, config)
+      .then((res) => sethospitalinventory(res.data))
+      .catch((e) => console.log("eeee", e))
+      .finally(() => setloading(false));
+  }, [loading, search, location, page]);
+  // const hospitalinventory = useFetch(`${api}inventory/hospitalInventory`);
+  // console.log("firstlocation", location);
+  const handlePage = (current) => {
+    setpage(current);
+  };
+  const handleChange = (event) => {
+    setsearch(event.target.value);
+  };
+  // console.log("inventory?.itemperpage", inventory?.itemperpage);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  // case 1- All inventory
+  // case 2- Dnorinventory
+  // case 4 - hospital inventory
   return (
     <div>
       {(() => {
         switch (location?.pathname) {
           case "/home/inventory":
             return (
-              <LoadingOverlay
-                spinner
-                text="Loading"
-                active={inventory?.loading}
-              >
+              <LoadingOverlay spinner text="Loading" active={loading}>
                 <Layout>
                   <Tostify />
                   <div className={styles.add_inventory}>
@@ -41,184 +94,48 @@ const Inventory = () => {
                     </h3>
                     <InventoryModal show={show} handleClose={handleClose} />
                   </div>
-                  {!inventory?.loading &&
-                    inventory?.data?.allInventory?.length === 0 && (
-                      <div className={styles.user_record}>
-                        <h3>No Recoard Found Of Inventory Record</h3>
-                      </div>
-                    )}
-                  {!inventory?.loading &&
-                    inventory?.data?.allInventory?.length > 0 && (
-                      <div className={styles.donor_data}>
-                        <table>
-                          <tr>
-                            <th>sr</th>
-                            <th>Inventory Type</th>
-                            <th>Quantity(ML)</th>
-                            <th>Blood Group</th>
-                            <th>Email</th>
-                            <th>Date</th>
-                          </tr>
-                          {inventory?.data?.allInventory?.map(
-                            (value, index) => {
-                              const {
-                                inventoryType,
-                                bloodgroup,
-                                Quantity,
-                                Donor,
-                                createdAt,
-                                Hospital,
-                              } = value;
-                              return (
-                                <tr>
-                                  <td>{index + 1}</td>
-                                  <td>{inventoryType}</td>
-                                  <td>{Quantity} ML</td>
-                                  <td>{bloodgroup}</td>
-                                  <td>
-                                    {Donor?.email
-                                      ? Donor?.email
-                                      : Hospital?.email}
-                                  </td>
-                                  <td>
-                                    {moment(createdAt).format("Do MMM YY")}
-                                  </td>
-                                </tr>
-                              );
-                            }
-                          )}
-                        </table>
-                      </div>
-                    )}
+                  <Allinventory
+                    loading={loading}
+                    inventory={inventory}
+                    handleChange={handleChange}
+                    handlePage={handlePage}
+                    search={search}
+                    page={page}
+                    limit={limit}
+                  />
                 </Layout>
               </LoadingOverlay>
             );
           case "/home/donorinventory":
             return (
-              <LoadingOverlay
-                spinner
-                text="Loading"
-                active={donorinventory?.loading}
-              >
+              <LoadingOverlay spinner text="Loading" active={loading}>
                 <Tostify />
                 <Layout>
-                  {!donorinventory?.loading &&
-                    donorinventory?.data?.getDonorInventory?.length === 0 && (
-                      <div className={styles.user_record}>
-                        <h3>No Recoard Found Of Donor Inventory Record</h3>
-                      </div>
-                    )}
-                  {!donorinventory?.loading &&
-                    donorinventory?.data?.getDonorInventory?.length > 0 && (
-                      <div className={styles.donor_data}>
-                        <table>
-                          <tr>
-                            <th>sr</th>
-                            <th>Name</th>
-                            <th>Inventory Type</th>
-                            <th>Quantity(ML)</th>
-                            <th>Blood Group</th>
-                            <th>Email</th>
-                            <th>Date</th>
-                            <th>view</th>
-                          </tr>
-                          {donorinventory?.data?.getDonorInventory?.map(
-                            (value, index) => {
-                              const {
-                                inventoryType,
-                                bloodgroup,
-                                Quantity,
-                                Donor,
-                                createdAt,
-                              } = value;
-                              return (
-                                <tr>
-                                  <td>{index + 1}</td>
-                                  <td>{Donor?.name}</td>
-                                  <td>{inventoryType}</td>
-                                  <td>{Quantity} ML</td>
-                                  <td>{bloodgroup}</td>
-                                  <td>{Donor?.email}</td>
-                                  <td>
-                                    {moment(createdAt).format("Do MMM YY")}
-                                  </td>
-                                  <td>
-                                    <Link to={`/home/donor/${Donor?._id}`}>
-                                      <AiFillEye />
-                                    </Link>
-                                  </td>
-                                </tr>
-                              );
-                            }
-                          )}
-                        </table>
-                      </div>
-                    )}
+                  <Donorinventory
+                    loading={loading}
+                    donorinventory={donorinventory}
+                    handleChange={handleChange}
+                    handlePage={handlePage}
+                    search={search}
+                    page={page}
+                    limit={limit}
+                  />
                 </Layout>
               </LoadingOverlay>
             );
           case "/home/hospitalinventory":
             return (
-              <LoadingOverlay
-                active={hospitalinventory?.loading}
-                spinner
-                text="Loading"
-              >
+              <LoadingOverlay active={loading} spinner text="Loading">
                 <Layout>
-                  {!hospitalinventory?.loading &&
-                    hospitalinventory?.data?.gethospitalInventory?.length ===
-                      0 && (
-                      <div className={styles.user_record}>
-                        <h3>No Recoard Found Of Hospital Inventory</h3>
-                      </div>
-                    )}
-                  {!hospitalinventory?.loading &&
-                    hospitalinventory?.data?.gethospitalInventory?.length >
-                      0 && (
-                      <div className={styles.donor_data}>
-                        <table>
-                          <tr>
-                            <th>sr</th>
-                            <th>Hospital name</th>
-                            <th>Inventory Type</th>
-                            <th>Quantity(ML)</th>
-                            <th>Blood Group</th>
-                            <th>Email</th>
-                            <th>Date</th>
-                            <th>view</th>
-                          </tr>
-                          {hospitalinventory?.data?.gethospitalInventory?.map(
-                            (value, index) => {
-                              const {
-                                inventoryType,
-                                bloodgroup,
-                                Quantity,
-                                Hospital,
-                                createdAt,
-                              } = value;
-                              return (
-                                <tr>
-                                  <td>{index + 1}</td>
-                                  <td>{Hospital?.hospitalName}</td>
-                                  <td>{inventoryType}</td>
-                                  <td>{Quantity} ML</td>
-                                  <td>{bloodgroup}</td>
-                                  <td>{Hospital?.email}</td>
-                                  <td>
-                                    {moment(createdAt).format("Do MMM YY")}
-                                  </td>
-                                  <td>
-                                    <Link to={`/home/donor/${Hospital?._id}`}>
-                                      <AiFillEye />
-                                    </Link>
-                                  </td>
-                                </tr>
-                              );
-                            }
-                          )}
-                        </table>
-                      </div>
-                    )}
+                  <Hospitalinventory
+                    loading={loading}
+                    hospitalinventory={hospitalinventory}
+                    handleChange={handleChange}
+                    handlePage={handlePage}
+                    search={search}
+                    page={page}
+                    limit={limit}
+                  />
                 </Layout>
               </LoadingOverlay>
             );

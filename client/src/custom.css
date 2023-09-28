@@ -56,11 +56,11 @@ ul,
 li {
   padding: 0;
   margin: 0;
+  list-style: none;
+}/* base css-end */
+.pagination_data{
+  margin-top: 12px;
 }
-li {
-  text-decoration: none;
-}
-/* base css-end */
 .modal.show .modal-dialog {
   position: absolute;
   top: 50%;
@@ -77,6 +77,9 @@ li {
       top: 80px;
       right: 0 !important;
   }       
+  .pagination_data a{
+    font-size: 14px;
+  }
 } 
 /* disable arrows from Number input  */
 input::-webkit-outer-spin-button,

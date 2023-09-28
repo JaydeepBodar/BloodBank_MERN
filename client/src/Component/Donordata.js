@@ -5,17 +5,18 @@ import { AiFillEye } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
 const Donordata = ({ donor, sr }) => {
   const location = useLocation();
-//   console.log("location",location)
+  //   console.log("location",location)
   const {
     name,
     email,
     address,
+    bloodgroup,
     createdAt,
     _id,
     organizationName,
     hospitalName,
   } = donor;
-//   console.log("hospitalName", hospitalName);
+  //   console.log("hospitalName", hospitalName);
   return (
     <React.Fragment>
       <tr style={{ textAlign: "center" }}>
@@ -23,7 +24,12 @@ const Donordata = ({ donor, sr }) => {
         {(() => {
           switch (location.pathname) {
             case "/home/donorlist":
-              return <td>{name}</td>;
+              return (
+                <React.Fragment>
+                  <td>{name}</td>
+                  <td>{bloodgroup}</td>
+                </React.Fragment>
+              );
             case "/home/Hospitallist":
               return <td>{hospitalName}</td>;
             case "/home/organizationlist":

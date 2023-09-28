@@ -21,7 +21,7 @@ const useFetch = (url) => {
       .catch((e) => seterror(e?.response?.data?.message))
       .finally(() => setloading(false));
   }, [loading,location]);
-  return { data, loading, error };
+  return { data, loading, error};
 };
 
 export default useFetch;
