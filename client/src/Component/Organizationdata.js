@@ -44,7 +44,7 @@ const Organizationdata = () => {
     setsearch(event.target.value);
   };
   const handlePage = (current) => {
-    setloading(loading);
+    setloading(true);
     setloading1(true);
     setpage(current);
   };
