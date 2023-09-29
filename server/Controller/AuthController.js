@@ -11,7 +11,7 @@ const registerUser = async (req, res) => {
     address,
     password,
     hospitalName,
-    bloodgroup  
+    bloodgroup,
   } = req.body;
   // try {
   const existingUser = await userModel.findOne({ email: email });
@@ -22,26 +22,47 @@ const registerUser = async (req, res) => {
     let data;
     switch (role) {
       case "Donor":
-        data = { name, email, password:encryptpassword, role, address,bloodgroup };
+        data = {
+          name,
+          email,
+          password: encryptpassword,
+          role,
+          address,
+          bloodgroup,
+        };
         break;
       case "Organization":
-        data = { email, password:encryptpassword, role, address, website, organizationName };
+        data = {
+          email,
+          password: encryptpassword,
+          role,
+          address,
+          website,
+          organizationName,
+        };
         break;
       case "Admin":
-        data = { name, email, password:encryptpassword, role, address };
+        data = { name, email, password: encryptpassword, role, address };
         break;
       case "Hospital":
-        data = { hospitalName, website, email, password:encryptpassword, role, address };
+        data = {
+          hospitalName,
+          website,
+          email,
+          password: encryptpassword,
+          role,
+          address,
+        };
         break;
       default:
         return;
     }
     // console.log("dfggysdygddysdydddsdd",data)
     const user = await userModel.create(data);
-    const token=jwt.sign({userId:user._id},process.env.SECERETKEY,{
-      expiresIn:"2H"
-    })
-    res.status(200).json({ user,token, message: "Succsessfully Register" });
+    const token = jwt.sign({ userId: user._id }, process.env.SECERETKEY, {
+      expiresIn: "2H",
+    });
+    res.status(200).json({ user, token, message: "Succsessfully Register" });
   }
   // } catch (e) {
   //   res.status(400).json({ message: "Internal Server error" });
@@ -72,47 +93,124 @@ const loginUser = async (req, res) => {
   }
 };
 const getUser = async (req, res) => {
-  const user = await userModel.find({_id:req.user._id}).sort({ createdAt: -1 })
+  const user = await userModel
+    .find({ _id: req.user._id })
+    .sort({ createdAt: -1 });
   res.json(user);
 };
-const getDonor=async(req,res)=>{
-  const donor=await userModel.find({role:"Donor"}).sort({ createdAt: -1 })
-  if(!donor){
-    res.status(205).json({message: "User not found"})
+const getDonor = async (req, res) => {
+  const { search, page } = req.query;
+  const querydata =
+    search !== undefined
+      ? {
+          $and: [
+            { role: "Donor" },
+            {
+              $or: [
+                { email: { $regex: search || "", $options: "i" } },
+                { name: { $regex: search || "", $options: "i" } },
+              ],
+            },
+          ],
+        }
+      : { role: "Donor" };
+  // console.log("firstquerydatasearchdata",searchdata)
+  // console.log("firstquerydata",querydata)
+  const itemperpage = 10;
+  const currentpage = Number(page) || 1;
+  const skippage = itemperpage * (currentpage - 1);
+  const totalitem = await userModel.find(querydata).countDocuments();
+  const donor = await userModel
+    .find(querydata)
+    .limit(itemperpage)
+    .skip(skippage)
+    .sort({ createdAt: -1 });
+  if (!donor) {
+    res.status(205).json({ message: "User not found" });
   }
-  res.status(200).json({donor})
-}
-const getSingleuser=async(req,res)=>{
-  const singledonor=await userModel.findById({_id:req.params.id}).sort({ createdAt: -1 })
-  if(!singledonor){
-    res.status(205).json({message: "User not found"})
+  res.status(200).json({ donor, itemperpage, totalitem });
+};
+const getSingleuser = async (req, res) => {
+  const singledonor = await userModel
+    .findById({ _id: req.params.id })
+    .sort({ createdAt: -1 });
+  if (!singledonor) {
+    res.status(205).json({ message: "User not found" });
   }
-  res.status(200).json({singledonor})
-}
-const getOrganization=async(req,res)=>{
-  try{
-    const Organization=await userModel.find({role:"Organization"}).sort({ createdAt: -1 })
-    res.status(200).json({Organization})
-  }catch(e){
-    res.status(500).json({message : "Internal server error"})
+  res.status(200).json({ singledonor });
+};
+const getOrganization = async (req, res) => {
+  try {
+    const { search, page } = req.query;
+    const querydata =
+      search !== undefined
+        ? {
+            $and: [
+              { role: "Organization" },
+              {
+                $or: [
+                  { organizationName: { $regex: search || "", $options: "i" } },
+                  { email: { $regex: search || "", $options: "i" } },
+                ],
+              },
+            ],
+          }
+        : { role: "Organization" };
+    const itemperpage = 10;
+    const currentpage = Number(page) || 1;
+    const skippage = itemperpage * (currentpage - 1);
+    const totalitem = await userModel.find(querydata).countDocuments();
+    const Organization = await userModel
+      .find(querydata)
+      .limit(itemperpage)
+      .skip(skippage)
+      .sort({ createdAt: -1 });
+    res.status(200).json({ Organization, totalitem, itemperpage });
+  } catch (e) {
+    res.status(500).json({ message: "Internal server error" });
   }
-}
-const getHospital=async(req,res)=>{
-  try{
-    const hospital=await userModel.find({role:"Hospital"}).sort({ createdAt: -1 })
-    res.status(200).json({hospital})
-  }catch(e){
-    res.status(500).json({message : "Internal server error"})
+};
+const getHospital = async (req, res) => {
+  try {
+    const { search, page } = req.query;
+    const querydata =
+      search !== undefined
+        ? {
+            $and: [
+              { role: "Hospital" },
+              {
+                $or: [
+                  { hospitalName: { $regex: search || "", $options: "i" } },
+                  { email: { $regex: search || "", $options: "i" } },
+                ],
+              },
+            ],
+          }
+        : { role: "Hospital" };
+    const itemperpage = 10;
+    const currentpage = Number(page) || 1;
+    const skippage = itemperpage * (currentpage - 1);
+    const totalitem = await userModel.find(querydata).countDocuments();
+    const hospital = await userModel
+      .find(querydata)
+      .limit(itemperpage)
+      .skip(skippage)
+      .sort({ createdAt: -1 });
+    res.status(200).json({ hospital, itemperpage, totalitem });
+  } catch (e) {
+    res.status(500).json({ message: "Internal server error" });
   }
-}
-const deleteSingleuser=async(req,res)=>{
-  try{
-    const deleteuser=await userModel.findByIdAndDelete({_id:req.params.id})
-    res.status(200).json({message:"Succsessfully delete record"})
-  }catch(e){
-    res.status(500).json({message : "Internal server error"})
+};
+const deleteSingleuser = async (req, res) => {
+  try {
+    const deleteuser = await userModel.findByIdAndDelete({
+      _id: req.params.id,
+    });
+    res.status(200).json({ message: "Succsessfully delete record" });
+  } catch (e) {
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 module.exports = {
   registerUser,
   loginUser,
@@ -121,5 +219,5 @@ module.exports = {
   getSingleuser,
   getOrganization,
   getHospital,
-  deleteSingleuser
+  deleteSingleuser,
 };

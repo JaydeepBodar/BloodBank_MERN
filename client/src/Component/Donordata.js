@@ -3,7 +3,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import { AiFillEye } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
-const Donordata = ({ donor, sr }) => {
+const Donordata = ({ donor, sr,page,limit }) => {
   const location = useLocation();
   //   console.log("location",location)
   const {
@@ -20,7 +20,7 @@ const Donordata = ({ donor, sr }) => {
   return (
     <React.Fragment>
       <tr style={{ textAlign: "center" }}>
-        <td>{sr}</td>
+        <td>{Number(sr + (page - 1) * limit)}</td>
         {(() => {
           switch (location.pathname) {
             case "/home/donorlist":

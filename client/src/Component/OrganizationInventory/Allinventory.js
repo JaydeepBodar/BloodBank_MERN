@@ -1,16 +1,23 @@
 import React from "react";
 import InputType from "../InputType";
 import moment from "moment";
-import Pagination from "react-js-pagination";
+import Custompagination from "../Cutompagination";
 import styles from "../../Style/Donor.module.css";
-const Allinventory = ({ loading,inventory,handleChange,handlePage,search,page,limit }) => {
+const Allinventory = ({
+  loading,
+  inventory,
+  handleChange,
+  handlePage,
+  search,
+  page,
+  limit,
+}) => {
+  console.log(
+    "inventory?.allInventory?.length",
+    inventory?.allInventory?.length
+  );
   return (
     <React.Fragment>
-      {loading && inventory?.allInventory?.length === 0 && (
-        <div className={styles.user_record}>
-          <h3>No Recoard Found Of Inventory Record</h3>
-        </div>
-      )}
       {!loading && (
         <div className={styles.search_data}>
           <InputType
@@ -22,12 +29,17 @@ const Allinventory = ({ loading,inventory,handleChange,handlePage,search,page,li
         </div>
       )}
       {!loading &&
-        search?.length > 0 &&
+        search?.length === 0   &&
         inventory?.allInventory?.length === 0 && (
           <div className={styles.user_record}>
-            <h3>No Recoard Found Of Your search</h3>
+            <h3>No Recoard Found Of Inventory Record</h3>
           </div>
         )}
+      {search?.length > 0 && inventory?.allInventory?.length === 0 && (
+        <div className={styles.user_record}>
+          <h3>No Recoard Found Of Your search</h3>
+        </div>
+      )}
       {!loading && inventory?.allInventory?.length > 0 && (
         <React.Fragment>
           <div className={styles.donor_data}>
@@ -62,23 +74,16 @@ const Allinventory = ({ loading,inventory,handleChange,handlePage,search,page,li
               })}
             </table>
           </div>
+          {inventory?.itemperpage <= inventory?.totalitem && (
+            <Custompagination
+              totalitem={inventory?.totalitem}
+              itemperpage={inventory?.itemperpage}
+              page={page}
+              handlePage={handlePage}
+            />
+          )}
         </React.Fragment>
       )}
-      <div className="pagination_data">
-        <Pagination
-          activePage={page}
-          itemsCountPerPage={inventory?.itemperpage}
-          totalItemsCount={inventory?.totalitem}
-          onChange={(e)=>handlePage(e)}
-          innerClass="d-flex justify-content-center"
-          activeClass="bg-primary text-light"
-          itemClass="px-2 py-1 border"
-          firstPageText={"First"}
-          lastPageText={"Last"}
-          nextPageText={"Next"}
-          prevPageText={"Prev"}
-        />
-      </div>
     </React.Fragment>
   );
 };

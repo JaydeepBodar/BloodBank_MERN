@@ -14,7 +14,7 @@ import Hospitallist from "./Pages/Dashbordlist/Hospitallist";
 import Singleuser from "./Component/Singleuser";
 import Userlist from "./Pages/Dashbordlist/Userlist";
 import Donorinventory from "./Pages/Donorinventory";
-import Donororganization from "./Component/Donororganization";
+import Organizationdata from "./Component/Organizationdata";
 import Anaylitic from "./Pages/Dashbordlist/Anaylitic";
 function App() {
   return (
@@ -143,7 +143,7 @@ function App() {
             path="donororganization"
             element={
               <ProtectRoutes>
-                <Donororganization />
+                <Organizationdata />
               </ProtectRoutes>
             }
           />
@@ -151,7 +151,7 @@ function App() {
             path="hospitalorganization"
             element={
               <ProtectRoutes>
-                <Donororganization />
+                <Organizationdata />
               </ProtectRoutes>
             }
           />

@@ -222,35 +222,85 @@ const hospitalInventory = async (req, res) => {
   const itemperpage = 10;
   const currentpage = Number(page) || 1;
   const skipitem = itemperpage * (currentpage - 1);
-  const totalitem=await inventoryModel.find(querydata).countDocuments()
+  const totalitem = await inventoryModel.find(querydata).countDocuments();
   const gethospitalInventory = await inventoryModel
     .find(querydata)
     .populate("Hospital")
     .skip(skipitem)
     .limit(itemperpage)
     .sort({ createdAt: -1 });
-  res.status(200).json({ gethospitalInventory,itemperpage,totalitem });
+  res.status(200).json({ gethospitalInventory, itemperpage, totalitem });
 };
 const getOrganizationbydonor = async (req, res) => {
   const getOrganization = await inventoryModel.distinct("Organization", {
     Donor: req.user.userId,
   });
+  const { organization, page } = req.query;
+  const querydata =
+    organization !== undefined
+      ? {
+          $and: [
+            { _id: getOrganization },
+            {
+              $or: [
+                { email: { $regex: organization || "", $options: "i" } },
+                {
+                  organizationName: {
+                    $regex: organization || "",
+                    $options: "i",
+                  },
+                },
+              ],
+            },
+          ],
+        }
+      : { _id: getOrganization };
+  const itemperpage = 10;
+  const currentpage = Number(page) || 1;
+  const skippage = itemperpage * (currentpage - 1);
+  const totalitem = await userModel.find(querydata).countDocuments();
   const getDonorOrganization = await userModel
-    .find({ _id: getOrganization })
+    .find(querydata)
+    .limit(itemperpage)
+    .skip(skippage)
     .sort({ createdAt: -1 });
   console.log("firstdata", getDonorOrganization);
-  res.status(200).json({ getDonorOrganization });
+  res.status(200).json({ getDonorOrganization, totalitem, itemperpage });
 };
 const getOrganizationbyhospital = async (req, res) => {
   const getOrganization = await inventoryModel.distinct("Organization", {
     Hospital: req.user.userId,
   });
+  const { organization, page } = req.query;
+  const querydata =
+    organization !== undefined
+      ? {
+          $and: [
+            { _id: getOrganization },
+            {
+              $or: [
+                { email: { $regex: organization || "", $options: "i" } },
+                {
+                  organizationName: {
+                    $regex: organization || "",
+                    $options: "i",
+                  },
+                },
+              ],
+            },
+          ],
+        }
+      : { _id: getOrganization };
+  const itemperpage = 10;
+  const currentpage = Number(page) || 1;
+  const skippage = itemperpage * (currentpage - 1);
+  const totalitem = await userModel.find(querydata).countDocuments();
   const getHospitalorganization = await userModel
-    .find({
-      _id: getOrganization,
-    })
+    .find(querydata)
+    .limit(itemperpage)
+    .skip(skippage)
     .sort({ createdAt: -1 });
-  res.status(200).json({ getHospitalorganization });
+  res.status(200).json({ getHospitalorganization, totalitem, itemperpage });
 };
 const getHospitalindiviusalinventory = async (req, res) => {
   const hospitalinventory = await inventoryModel

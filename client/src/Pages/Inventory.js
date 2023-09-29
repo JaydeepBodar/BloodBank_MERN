@@ -9,9 +9,9 @@ import Tostify from "../Component/Tostify";
 import LoadingOverlay from "react-loading-overlay";
 import axios from "axios";
 import { GlobalContext } from "../Context/Authcontext";
-import Allinventory from "../Component/Inventory/Allinventory";
-import Donorinventory from "../Component/Inventory/Donorinventory";
-import Hospitalinventory from "../Component/Inventory/Hospitalinventory";
+import Allinventory from "../Component/OrganizationInventory/Allinventory";
+import Donorinventory from "../Component/OrganizationInventory/Donorinventory";
+import Hospitalinventory from "../Component/OrganizationInventory/Hospitalinventory";
 const Inventory = () => {
   const { token } = GlobalContext();
   const location = useLocation();
@@ -20,6 +20,8 @@ const Inventory = () => {
   const [donorinventory, setdonorinventory] = useState([]);
   const [hospitalinventory, sethospitalinventory] = useState([]);
   const [loading, setloading] = useState(true);
+  const [loading1, setloading1] = useState(true);
+  const [loading2, setloading2] = useState(true);
   const [page, setpage] = useState(1);
   const [search, setsearch] = useState("");
   const limit = 10;
@@ -32,6 +34,7 @@ const Inventory = () => {
       Authorization: token,
     },
   };
+  console.log("ffffffffffffffffff", loading);
   useEffect(() => {
     const apiurl = search
       ? `${api}inventory/getInventory?inventoryType=${search}&bloodgroup=${search}&page=${page}`
@@ -50,8 +53,8 @@ const Inventory = () => {
       .get(apiurl, config)
       .then((res) => setdonorinventory(res.data))
       .catch((e) => console.log("eeee", e))
-      .finally(() => setloading(false));
-  }, [loading, search, location, page]);
+      .finally(() => setloading1(false));
+  }, [loading1, search, location, page]);
   useEffect(() => {
     const apiurl = search
       ? `${api}inventory/hospitalInventory?bloodgroup=${search}&page=${page}`
@@ -60,11 +63,13 @@ const Inventory = () => {
       .get(apiurl, config)
       .then((res) => sethospitalinventory(res.data))
       .catch((e) => console.log("eeee", e))
-      .finally(() => setloading(false));
-  }, [loading, search, location, page]);
+      .finally(() => setloading2(false));
+  }, [loading2, search, location, page]);
   // const hospitalinventory = useFetch(`${api}inventory/hospitalInventory`);
   // console.log("firstlocation", location);
   const handlePage = (current) => {
+    setloading(true);
+    setloading1(true)
     setpage(current);
   };
   const handleChange = (event) => {
@@ -108,11 +113,11 @@ const Inventory = () => {
             );
           case "/home/donorinventory":
             return (
-              <LoadingOverlay spinner text="Loading" active={loading}>
+              <LoadingOverlay spinner text="Loading" active={loading1}>
                 <Tostify />
                 <Layout>
                   <Donorinventory
-                    loading={loading}
+                    loading={loading1}
                     donorinventory={donorinventory}
                     handleChange={handleChange}
                     handlePage={handlePage}
@@ -125,10 +130,10 @@ const Inventory = () => {
             );
           case "/home/hospitalinventory":
             return (
-              <LoadingOverlay active={loading} spinner text="Loading">
+              <LoadingOverlay active={loading2} spinner text="Loading">
                 <Layout>
                   <Hospitalinventory
-                    loading={loading}
+                    loading={loading2}
                     hospitalinventory={hospitalinventory}
                     handleChange={handleChange}
                     handlePage={handlePage}
