@@ -12,34 +12,28 @@ const Allinventory = ({
   page,
   limit,
 }) => {
-  console.log(
-    "inventory?.allInventory?.length",
-    inventory?.allInventory?.length
-  );
+  // console.log(
+  //   "inventory?.allInventory?.length",
+  //   inventory?.allInventory?.length
+  // );
   return (
     <React.Fragment>
       {!loading && (
         <div className={styles.search_data}>
           <InputType
             value={search}
-            name="search"
+            name="inventorydata"
             onChange={(e) => handleChange(e)}
             placeholder="Enter Inventory Type or Blood group"
           />
         </div>
       )}
       {!loading &&
-        search?.length === 0   &&
         inventory?.allInventory?.length === 0 && (
           <div className={styles.user_record}>
             <h3>No Recoard Found Of Inventory Record</h3>
           </div>
         )}
-      {search?.length > 0 && inventory?.allInventory?.length === 0 && (
-        <div className={styles.user_record}>
-          <h3>No Recoard Found Of Your search</h3>
-        </div>
-      )}
       {!loading && inventory?.allInventory?.length > 0 && (
         <React.Fragment>
           <div className={styles.donor_data}>

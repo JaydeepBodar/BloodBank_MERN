@@ -7,7 +7,7 @@ import { Row, Col } from "react-bootstrap";
 import Chartdata from "./Chart";
 import style from "../../Style/Anaylitic.module.css";
 const Anaylitic = () => {
-  const { data, loading } = useFetch(`${api}inventory/anaylitic`);
+  const { data, loading } = useFetch(`${api}inventory/anaylitic`,"");
   return (
     <LoadingOverlay active={loading} className={loading && "vh-100  "} spinner text="Loading">
       <Layout>

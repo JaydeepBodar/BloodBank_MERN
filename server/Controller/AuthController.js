@@ -42,7 +42,7 @@ const registerUser = async (req, res) => {
         };
         break;
       case "Admin":
-        data = { name, email, password: encryptpassword, role, address };
+        data = { name, email, password: encryptpassword, address,role };
         break;
       case "Hospital":
         data = {

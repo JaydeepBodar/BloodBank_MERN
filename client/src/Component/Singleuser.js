@@ -19,8 +19,9 @@ const Singleuser = () => {
     },
   };
   // console.log("id", typeof id);
+  let query={}
   const navigate = useNavigate();
-  const { loading, data } = useFetch(`${api}auth/donor/${id}`);
+  const { loading, data } = useFetch(`${api}auth/donor/${id}`,query);
   const deleteRecord = () => {
     let text =
       "if you really want to remove Record ? if yes then press ok otherwise press cancle";

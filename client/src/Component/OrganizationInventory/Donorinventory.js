@@ -19,12 +19,11 @@ const Donorinventory = ({
     <React.Fragment>
       {!loading && (
         <div className={styles.search_data}>
-          <InputType
+          <InputType  
             value={search}
-            name="search"
+            name="donorinventorydata"
             onChange={(e) => handleChange(e)}
-            onkeydown="return /[a-zA-Z]/i.test(event.key)"
-            placeholder="Enter Inventory Type or Blood group"
+            placeholder="Enter Blood group"
           />
         </div>
       )}
@@ -33,13 +32,6 @@ const Donorinventory = ({
           <h3>No Recoard Found Of Donor Inventory Record</h3>
         </div>
       )}
-      {!loading &&
-        search?.length > 0 &&
-        donorinventory?.getDonorInventory?.length === 0 && (
-          <div className={styles.user_record}>
-            <h3>No Recoard Found Of Your search</h3>
-          </div>
-        )}
       {!loading && donorinventory?.getDonorInventory?.length > 0 && (
         <React.Fragment>
           <div className={styles.donor_data}>

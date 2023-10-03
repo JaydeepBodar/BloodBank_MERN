@@ -7,75 +7,64 @@ import { useLocation } from "react-router-dom";
 import InventoryModal from "../Component/InventoryModal";
 import Tostify from "../Component/Tostify";
 import LoadingOverlay from "react-loading-overlay";
-import axios from "axios";
 import { GlobalContext } from "../Context/Authcontext";
 import Allinventory from "../Component/OrganizationInventory/Allinventory";
 import Donorinventory from "../Component/OrganizationInventory/Donorinventory";
 import Hospitalinventory from "../Component/OrganizationInventory/Hospitalinventory";
+import useFetch from "../Customhooks/useFetch";
 const Inventory = () => {
   const { token } = GlobalContext();
   const location = useLocation();
-  // console.log("search", search?.length);
-  const [inventory, setinventory] = useState([]);
-  const [donorinventory, setdonorinventory] = useState([]);
-  const [hospitalinventory, sethospitalinventory] = useState([]);
-  const [loading, setloading] = useState(true);
-  const [loading1, setloading1] = useState(true);
-  const [loading2, setloading2] = useState(true);
-  const [page, setpage] = useState(1);
-  const [search, setsearch] = useState("");
-  const limit = 10;
+  // const [hospitalinventory, sethospitalinventory] = useState([]);
+  const [search, setsearch] = useState({
+    inventorydata: "",
+    donorinventorydata: "",
+    hospitalinventorydata: "",
+  });
+  const { inventorydata, donorinventorydata, hospitalinventorydata } = search;
   const [show, setShow] = useState(false);
-  // console.log("inventory?.totalitem", inventory?.totalitem);
-  // const querydata=new URLSearchParams(location.search)
-  // console.log("sgdgdgsgfdbddbd",querydata.get("page"))
-  const config = {
-    headers: {
-      Authorization: token,
-    },
+  const ivdata = {
+    "inventoryType": `${inventorydata}`,
+    "bloodgroup": `${inventorydata}`,
   };
-  console.log("ffffffffffffffffff", loading);
-  useEffect(() => {
-    const apiurl = search
-      ? `${api}inventory/getInventory?inventoryType=${search}&bloodgroup=${search}&page=${page}`
-      : `${api}inventory/getInventory?page=${page}`;
-    axios
-      .get(apiurl, config)
-      .then((res) => setinventory(res.data))
-      .catch((e) => console.log("eeee", e))
-      .finally(() => setloading(false));
-  }, [loading, search, location, page]);
-  useEffect(() => {
-    const apiurl = search
-      ? `${api}inventory/donorinventory?bloodgroup=${search}&page=${page}`
-      : `${api}inventory/donorinventory?page=${page}`;
-    axios
-      .get(apiurl, config)
-      .then((res) => setdonorinventory(res.data))
-      .catch((e) => console.log("eeee", e))
-      .finally(() => setloading1(false));
-  }, [loading1, search, location, page]);
-  useEffect(() => {
-    const apiurl = search
-      ? `${api}inventory/hospitalInventory?bloodgroup=${search}&page=${page}`
-      : `${api}inventory/hospitalInventory?page=${page}`;
-    axios
-      .get(apiurl, config)
-      .then((res) => sethospitalinventory(res.data))
-      .catch((e) => console.log("eeee", e))
-      .finally(() => setloading2(false));
-  }, [loading2, search, location, page]);
-  // const hospitalinventory = useFetch(`${api}inventory/hospitalInventory`);
-  // console.log("firstlocation", location);
-  const handlePage = (current) => {
-    setloading(true);
-    setloading1(true)
-    setpage(current);
+  const donordata = {
+    "bloodgroup": `${donorinventorydata}`,
   };
+  const hospitaldata={
+    "bloodgroup": `${hospitalinventorydata}`,
+  }
+  const inventory = useFetch(
+    `${api}inventory/getInventory`,
+    inventorydata?.length > 0 ? ivdata : ""
+  );
+  const donorinventory = useFetch(
+    `${api}inventory/donorinventory`,
+    donorinventorydata?.length > 0 ? donordata : ""
+  );
+  const hospitalinventory = useFetch(
+    `${api}inventory/hospitalinventory`,
+    hospitalinventorydata?.length > 0 ? hospitaldata : ""
+  );
+  // const config = {
+  //   headers: {
+  //     Authorization: token,
+  //   },
+  // };
+  // useEffect(() => {
+  //   const apiurl = search
+  //     ? `${api}inventory/donorinventory?bloodgroup=${search}&page=${page}`
+  //     : `${api}inventory/donorinventory?page=${page}`;
+  //   axios
+  //     .get(apiurl, config)
+  //     .then((res) => setdonorinventory(res.data))
+  //     .catch((e) => console.log("eeee", e))
+  //     .finally(() => setloading1(false));
+  // }, [loading1, search, location, page]);
   const handleChange = (event) => {
-    setsearch(event.target.value);
+    // inventory?.setloading(true)
+    const { name, value } = event.target;
+    setsearch({ ...search, [name]: value });
   };
-  // console.log("inventory?.itemperpage", inventory?.itemperpage);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   // case 1- All inventory
@@ -87,7 +76,11 @@ const Inventory = () => {
         switch (location?.pathname) {
           case "/home/inventory":
             return (
-              <LoadingOverlay spinner text="Loading" active={loading}>
+              <LoadingOverlay
+                spinner
+                text="Loading"
+                active={inventory?.loading}
+              >
                 <Layout>
                   <Tostify />
                   <div className={styles.add_inventory}>
@@ -100,50 +93,56 @@ const Inventory = () => {
                     <InventoryModal show={show} handleClose={handleClose} />
                   </div>
                   <Allinventory
-                    loading={loading}
-                    inventory={inventory}
-                    handleChange={handleChange}
-                    handlePage={handlePage}
-                    search={search}
-                    page={page}
-                    limit={limit}
+                    loading={inventory?.loading}
+                    inventory={inventory?.data}
+                    handleChange={handleChange} 
+                    handlePage={inventory?.handlePage}
+                    search={inventorydata}
+                    page={inventory?.page}
+                    limit={inventory?.limit}
                   />
                 </Layout>
               </LoadingOverlay>
             );
+
           case "/home/donorinventory":
             return (
-              <LoadingOverlay spinner text="Loading" active={loading1}>
+              <LoadingOverlay
+                spinner
+                text="Loading"
+                active={donorinventory?.loading}
+              >
                 <Tostify />
                 <Layout>
                   <Donorinventory
-                    loading={loading1}
-                    donorinventory={donorinventory}
+                    loading={donorinventory?.loading}
+                    donorinventory={donorinventory?.data}
                     handleChange={handleChange}
-                    handlePage={handlePage}
-                    search={search}
-                    page={page}
-                    limit={limit}
+                    handlePage={donorinventory?.handlePage}
+                    search={donorinventorydata}
+                    page={donorinventory?.page}
+                    limit={donorinventory?.limit}
                   />
                 </Layout>
               </LoadingOverlay>
             );
           case "/home/hospitalinventory":
             return (
-              <LoadingOverlay active={loading2} spinner text="Loading">
+              <LoadingOverlay active={hospitalinventory?.loading} spinner text="Loading">
                 <Layout>
                   <Hospitalinventory
-                    loading={loading2}
-                    hospitalinventory={hospitalinventory}
+                    loading={hospitalinventory?.loading}
+                    hospitalinventory={hospitalinventory?.data}
                     handleChange={handleChange}
-                    handlePage={handlePage}
-                    search={search}
-                    page={page}
-                    limit={limit}
+                    handlePage={hospitalinventory?.handlePage}
+                    search={hospitalinventorydata}
+                    page={hospitalinventory?.page}
+                    limit={hospitalinventory?.limit}
                   />
                 </Layout>
               </LoadingOverlay>
             );
+
           default:
             return null;
         }

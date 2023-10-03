@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import InputType from "../Component/InputType";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import styles from "../Style/form.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import axios from "axios";
 import { api } from "../utils/api";
@@ -11,8 +11,10 @@ import { toast } from "react-toastify";
 import Tostify from "../Component/Tostify";
 const Signup = () => {
   const [type, setType] = useState("password");
+  const location = useLocation();
   const navigate = useNavigate();
   const [icon, setIcon] = useState(AiFillEyeInvisible);
+  const [strength, setstrength] = useState("");
   const [Input, setInput] = useState({
     name: "",
     organizationName: "",
@@ -21,8 +23,11 @@ const Signup = () => {
     address: "",
     email: "",
     password: "",
-    role: "",
-    bloodgroup:""
+    role:
+      location.pathname === "/home/Adminsignup" || "/home/adminsignup"
+        ? "Admin"
+        : "",
+    bloodgroup: "",
   });
   const {
     name,
@@ -33,11 +38,32 @@ const Signup = () => {
     hospitalName,
     website,
     address,
-    bloodgroup
+    bloodgroup,
   } = Input;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInput({ ...Input, [name]: value });
+    const protectpassword = passwordprotect(password);
+    console.log("firstprotectpassword",protectpassword)
+    setstrength(protectpassword);
+  };
+  const passwordprotect = (passworddata) => {
+    if (passworddata?.length <= 8) {
+      return "Password length must be 8 character";
+    } else if (!/[A-Z]/?.test(passworddata)) {
+      return "At least one upper case Alphabet"
+    }else if(!/[a-z]/?.test(passworddata)){
+      return "At least one lower case Alphabet"
+    }else if(!/[#?!@$%^&*-]/?.test(passworddata)){
+      return "At least one special character"
+    }
+    console.log("password", strength);
+  };
+
+  const handleBlur = () => {
+    const protectpassword = passwordprotect(password);
+    console.log("firstprotectpassword", protectpassword);
+    setstrength(protectpassword);
   };
   const handleToggle = () => {
     if (type === "password") {
@@ -56,7 +82,7 @@ const Signup = () => {
     let data;
     switch (role) {
       case "Donor":
-        data = { name, email, password, role, address,bloodgroup };
+        data = { name, email, password, role, address, bloodgroup };
         if (!name || !email || !password || !address || !bloodgroup) {
           toast.error("All Field are Required");
         }
@@ -79,20 +105,31 @@ const Signup = () => {
           toast.error("All Field are Required");
         }
         break;
+      case "Admin":
+        data = { name, email, password, address, role };
+        if (!name || !email || !password || !address) {
+          toast.error("All Field are Required");
+        }
+        break;
       default:
         return;
     }
+    if (strength) {
+      const protectpassword = passwordprotect(password);
+      setstrength(protectpassword);
+    }
     // console.log("daaaaaaaaaaaaaaaaa", data);
-    axios
-      .post(`${api}auth/register`, data)
-      .then((res) => {
-        console.log("res", res);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        localStorage.setItem("token", JSON.stringify(res.data.token));
-        toast.success(res.data.message);
-        navigate("/home/dashboard");
-      })
-      .catch((e) => toast.warn(e.response.data.message));
+    else {
+      axios
+        .post(`${api}auth/register`, data)
+        .then((res) => {
+          localStorage.setItem("user", JSON.stringify(res.data?.user));
+          localStorage.setItem("token", JSON.stringify(res.data?.token));
+          toast.success(res.data?.message);
+          navigate("/home/dashboard");
+        })
+        .catch((e) => toast.warn(e?.response?.data?.message));
+    }
   };
   return (
     <section className="signup_section">
@@ -112,38 +149,39 @@ const Signup = () => {
             <div className={styles.mobile_responsive}>
               <h2 style={{ textAlign: "center" }}>Sign up</h2>
               <form onSubmit={handleSubmit}>
-                <div className={styles.radio_group}>
-                  <div className={styles.group_form}>
-                    <InputType
-                      value="Donor"
-                      name="role"
-                      onChange={handleChange}
-                      type="radio"
-                      label="Donor"
-                      checked={role === "Donor"}
-                    />
-                  </div>
-                  <div className={styles.group_form}>
-                    <InputType
-                      value="Hospital"
-                      name="role"
-                      onChange={handleChange}
-                      type="radio"
-                      label="Hospital"
-                      checked={role === "Hospital"}
-                    />
-                  </div>
-                  <div className={styles.group_form}>
-                    <InputType
-                      value="Organization"
-                      onChange={handleChange}
-                      type="radio"
-                      name="role"
-                      label="Organization"
-                      checked={role === "Organization"}
-                    />
-                  </div>
-                  {/* <div className={styles.group_form}>
+                {location.pathname === "/home/register" && (
+                  <div className={styles.radio_group}>
+                    <div className={styles.group_form}>
+                      <InputType
+                        value="Donor"
+                        name="role"
+                        onChange={handleChange}
+                        type="radio"
+                        label="Donor"
+                        checked={role === "Donor"}
+                      />
+                    </div>
+                    <div className={styles.group_form}>
+                      <InputType
+                        value="Hospital"
+                        name="role"
+                        onChange={handleChange}
+                        type="radio"
+                        label="Hospital"
+                        checked={role === "Hospital"}
+                      />
+                    </div>
+                    <div className={styles.group_form}>
+                      <InputType
+                        value="Organization"
+                        onChange={handleChange}
+                        type="radio"
+                        name="role"
+                        label="Organization"
+                        checked={role === "Organization"}
+                      />
+                    </div>
+                    {/* <div className={styles.group_form}>
                     <InputType
                       value="Admin"
                       onChange={handleChange}
@@ -153,8 +191,9 @@ const Signup = () => {
                       checked={role === "Admin"}
                     />
                   </div> */}
-                </div>
-                {/* {role === "Admin" && (
+                  </div>
+                )}
+                {role === "Admin" && (
                   <div className={styles.form_group}>
                     <InputType
                       label="Name"
@@ -165,7 +204,7 @@ const Signup = () => {
                       placeholder="Enter Your Name..."
                     />
                   </div>
-                )} */}
+                )}
                 {role === "Donor" && (
                   <React.Fragment>
                     <div className={styles.form_group}>
@@ -179,24 +218,25 @@ const Signup = () => {
                       />
                     </div>
                     <div className={styles.dropdown_add}>
-                    <select
-                      value={bloodgroup}
-                      onChange={handleChange}
-                      name="bloodgroup"
-                    >
-                      <option hidden>Select Bloodgroup...</option>
-                      {bloodgroupdata?.map((val, index) => {
-                        return (
-                          <option
-                            name="bloodgroup"
-                            value={val?.value}
-                            key={index}
-                          >
-                            {val?.label}
-                          </option>
-                        );
-                      })}
-                    </select></div>
+                      <select
+                        value={bloodgroup}
+                        onChange={handleChange}
+                        name="bloodgroup"
+                      >
+                        <option hidden>Select Bloodgroup...</option>
+                        {bloodgroupdata?.map((val, index) => {
+                          return (
+                            <option
+                              name="bloodgroup"
+                              value={val?.value}
+                              key={index}
+                            >
+                              {val?.label}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
                   </React.Fragment>
                 )}
                 {role === "Organization" && (
@@ -275,7 +315,13 @@ const Signup = () => {
                     onChange={handleChange}
                     name="password"
                     placeholder="Enter Your Password..."
+                    onBlur={handleBlur}
                   />
+                  {strength && (
+                    <p style={{ fontSize: "12px",color:"red" }}>
+                      Password strength :-{strength}
+                    </p>
+                  )}
                   <span onClick={handleToggle}>{icon}</span>
                 </div>
                 <h6 className="mt-2">

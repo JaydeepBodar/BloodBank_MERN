@@ -19,21 +19,13 @@ const Donororganizationdata = ({
         <div className={styles.search_data}>
           <InputType
             value={search}
-            name="search"
+            name="donororg"
             onChange={(e) => handleChange(e)}
             placeholder="Enter Donor name or Email"
           />
         </div>
       )}
       {!loading &&
-        search?.length > 0 &&
-        donororganization?.getDonorOrganization?.length === 0 && (
-          <div className={styles.user_record}>
-            <h3>No Recoard Found Of Your search</h3>
-          </div>
-        )}
-      {!loading &&
-        search?.length === 0 &&
         donororganization?.getDonorOrganization?.length === 0 && (
           <div className={styles.user_record}>
             <h3>No Recoard Found Of Organization</h3>

@@ -11,8 +11,8 @@ import { api } from "../utils/api";
 import InputType from "./InputType";
 import { bloodgroupdata } from "../utils/bloodgroup";
 const InventoryModal = ({ show, handleClose }) => {
-  const organization = useFetch(`${api}auth/organization`);
-  const hospital = useFetch(`${api}auth/hospital`);
+  const organization = useFetch(`${api}auth/organization`,"");
+  const hospital = useFetch(`${api}auth/hospital`,"");
   const navigate = useNavigate();
   const { token, user } = GlobalContext();
   const config = {

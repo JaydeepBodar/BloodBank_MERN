@@ -20,19 +20,12 @@ const Hospitalinventory = ({
         <div className={styles.search_data}>
           <InputType
             value={search}
-            name="search"
+            name="hospitalinventorydata"
             onChange={(e) => handleChange(e)}
-            placeholder="Enter Inventory Type or Blood group"
+            placeholder="Enter Blood group"
           />
         </div>
       )}
-      {!loading &&
-        search?.length > 0 &&
-        hospitalinventory?.getDonorInventory?.length === 0 && (
-          <div className={styles.user_record}>
-            <h3>No Recoard Found Of Your search</h3>
-          </div>
-        )}
       {!loading && hospitalinventory?.gethospitalInventory?.length === 0 && (
         <div className={styles.user_record}>
           <h3>No Recoard Found Of Hospital Inventory</h3>

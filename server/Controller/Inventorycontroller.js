@@ -118,13 +118,13 @@ const getInventory = async (req, res) => {
               $or: [
                 {
                   inventoryType: {
-                    $regex: blooddata?.inventoryType || " ",
+                    $regex: blooddata?.inventoryType || "",
                     $options: "i",
                   },
                 },
                 {
                   bloodgroup: {
-                    $regex: blooddata?.bloodgroup || " ",
+                    $regex: blooddata?.bloodgroup || "",
                     $options: "i",
                   },
                 },
@@ -190,15 +190,24 @@ const getDonorInventory = async (req, res) => {
   res.status(200).json({ getDonorInventory, totalitem, itemperpage });
 };
 const getIndivisualdonorinventory = async (req, res) => {
+  const { page } = req.query;
+  const itemperpage = 10;
+  const currentpage = Number(page) || 1;
+  const skipitem = itemperpage * (currentpage - 1);
+  const totalitem = await inventoryModel
+    .find({ Donor: req.user.userId })
+    .countDocuments();
   const donorInventory = await inventoryModel
     .find({ Donor: req.user.userId })
     .populate("Donor")
     .populate("Organization")
+    .limit(itemperpage)
+    .skip(skipitem)
     .sort({ createdAt: -1 });
   if (!donorInventory) {
     res.status(400).json({ message: "No Donor data found" });
   }
-  res.status(200).json({ donorInventory });
+  res.status(200).json({ donorInventory, itemperpage, totalitem });
 };
 const hospitalInventory = async (req, res) => {
   const { bloodgroup, page } = req.query;
@@ -235,18 +244,18 @@ const getOrganizationbydonor = async (req, res) => {
   const getOrganization = await inventoryModel.distinct("Organization", {
     Donor: req.user.userId,
   });
-  const { organization, page } = req.query;
+  const { search, page } = req.query;
   const querydata =
-    organization !== undefined
+    search !== undefined
       ? {
           $and: [
             { _id: getOrganization },
             {
               $or: [
-                { email: { $regex: organization || "", $options: "i" } },
+                { organizationName: { $regex: search || "", $options: "i" } },
                 {
-                  organizationName: {
-                    $regex: organization || "",
+                  email: {
+                    $regex: search || "",
                     $options: "i",
                   },
                 },
@@ -271,18 +280,18 @@ const getOrganizationbyhospital = async (req, res) => {
   const getOrganization = await inventoryModel.distinct("Organization", {
     Hospital: req.user.userId,
   });
-  const { organization, page } = req.query;
+  const { search, page } = req.query;
   const querydata =
-    organization !== undefined
+    search !== undefined
       ? {
           $and: [
             { _id: getOrganization },
             {
               $or: [
-                { email: { $regex: organization || "", $options: "i" } },
+                { email: { $regex: search || "", $options: "i" } },
                 {
-                  organizationName: {
-                    $regex: organization || "",
+                  hospitalName: {
+                    $regex: search || "",
                     $options: "i",
                   },
                 },
@@ -303,15 +312,24 @@ const getOrganizationbyhospital = async (req, res) => {
   res.status(200).json({ getHospitalorganization, totalitem, itemperpage });
 };
 const getHospitalindiviusalinventory = async (req, res) => {
+  const { page } = req.query;
+  const itemperpage = 10;
+  const currentpage = Number(page) || 1;
+  const skipitem = itemperpage * (currentpage - 1);
+  const totalitem = await inventoryModel
+    .find({ Hospital: req.user.userId })
+    .countDocuments();
   const hospitalinventory = await inventoryModel
     .find({ Hospital: req.user.userId })
     .populate("Hospital")
     .populate("Organization")
+    .limit(itemperpage)
+    .skip(skipitem)
     .sort({ createdAt: -1 });
   if (!hospitalInventory) {
     res.status(400).json({ message: "No hospital data found" });
   }
-  res.status(200).json({ hospitalinventory });
+  res.status(200).json({ hospitalinventory, totalitem, itemperpage });
 };
 module.exports = {
   createInventory,

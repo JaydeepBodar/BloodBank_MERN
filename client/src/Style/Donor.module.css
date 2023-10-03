@@ -32,10 +32,11 @@
   font-size: 27px;
   text-align: center;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 992px) {
   .user {
     width: 100%;
     max-width: 95%;
+    left: 69%;
     margin: 0 auto;
   }
 }

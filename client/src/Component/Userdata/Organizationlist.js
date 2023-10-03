@@ -20,21 +20,13 @@ const Organizationlist = ({
         <div className={styles.search_data}>
           <InputType
             value={search}
-            name="search"
+            name="organizationdata"
             onChange={(e) => handleChange(e)}
-            placeholder="Enter Donor name or Email"
+            placeholder="Enter Organization name or Email"
           />
         </div>
       )}
       {!loading &&
-        search?.length > 0 &&
-        organization?.Organization?.length === 0 && (
-          <div className={styles.user_record}>
-            <h3>No Recoard Found Of Your search</h3>
-          </div>
-        )}
-      {!loading &&
-        search?.length === 0 &&
         organization?.Organization?.length === 0 && (
           <div className={styles.user_record}>
             <h3>No Recoard Found Of Hospital</h3>

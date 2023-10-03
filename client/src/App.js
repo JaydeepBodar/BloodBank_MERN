@@ -16,6 +16,7 @@ import Userlist from "./Pages/Dashbordlist/Userlist";
 import Donorinventory from "./Pages/Donorinventory";
 import Organizationdata from "./Component/Organizationdata";
 import Anaylitic from "./Pages/Dashbordlist/Anaylitic";
+import Adminauth from "./Pages/Adminauth";
 function App() {
   return (
     <React.Fragment>
@@ -31,6 +32,14 @@ function App() {
           }
         />
         <Route path="home" element={<Header />}>
+          <Route
+            path="Adminsignup"
+            element={
+              <Loginprotect>
+                <Adminauth />
+              </Loginprotect>
+            }
+          />
           <Route
             path="login"
             element={
