@@ -43,21 +43,23 @@ const Signup = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInput({ ...Input, [name]: value });
-    const protectpassword = passwordprotect(password);
-    console.log("firstprotectpassword",protectpassword)
-    setstrength(protectpassword);
   };
   const passwordprotect = (passworddata) => {
-    if (passworddata?.length <= 8) {
+    if (passworddata?.length < 7) {
       return "Password length must be 8 character";
-    } else if (!/[A-Z]/?.test(passworddata)) {
-      return "At least one upper case Alphabet"
-    }else if(!/[a-z]/?.test(passworddata)){
-      return "At least one lower case Alphabet"
-    }else if(!/[#?!@$%^&*-]/?.test(passworddata)){
-      return "At least one special character"
+    }else if(!/[0-9]/.test(passworddata)){
+      return "At least one number required";
     }
-    console.log("password", strength);
+     else if (!/(?=.*?[A-Z])/.test(passworddata)) {
+      return "At least one upper case Alphabet";
+    } else if (!/[a-z]/.test(passworddata)) {
+      return "At least one lower case Alphabet";
+    } else if (!/[#?!@$%^&*-]/.test(passworddata)) {
+      return "At least one special character";
+    } else {
+      return "";
+    }
+    // console.log("password", strength);
   };
 
   const handleBlur = () => {
@@ -93,12 +95,6 @@ const Signup = () => {
           toast.error("All Field are Required");
         }
         break;
-      // case "Admin":
-      //   data = { name, email, password, role, address };
-      //   if(!name || !email || !password || !address);{
-      //     toast.error("All Field are Required")
-      //   }
-      //   break;
       case "Hospital":
         data = { hospitalName, website, email, password, role, address };
         if (!hospitalName || !website || !email || !password || !address) {
@@ -317,8 +313,8 @@ const Signup = () => {
                     placeholder="Enter Your Password..."
                     onBlur={handleBlur}
                   />
-                  {strength && (
-                    <p style={{ fontSize: "12px",color:"red" }}>
+                  {password?.length > 0 && strength && (
+                    <p style={{ fontSize: "12px", color: "red" }}>
                       Password strength :-{strength}
                     </p>
                   )}
