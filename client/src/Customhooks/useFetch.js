@@ -34,6 +34,7 @@ const useFetch = (url, queryparameter) => {
     // console.log("firstquerydata",querydata)
     // console.log("firstloading",loading)
   useEffect(() => {
+    console.log("objectrenderrrr")
     axios
       .get(querydata, config)
       .then((res) => setdata(res?.data))

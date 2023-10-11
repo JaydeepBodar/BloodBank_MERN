@@ -146,7 +146,8 @@ const getInventory = async (req, res) => {
       .populate("Hospital")
       .populate("Donor")
       .limit(itemperpage)
-      .skip(totalskipitem)
+      .skip(      blooddata?.bloodgroup !== undefined ||
+        blooddata?.inventoryType !== undefined ? 0 : totalskipitem)
       .sort({ createdAt: -1 });
     // console.log("user", req.user.userId);
     res.status(200).json({ allInventory, totalitem, itemperpage });
@@ -181,7 +182,7 @@ const getDonorInventory = async (req, res) => {
     .find(querydata)
     .populate("Donor")
     .limit(itemperpage)
-    .skip(skipage)
+    .skip(bloodgroup !== undefined ? 0 :skipage)
     .sort({ createdAt: -1 })
     .then((data) => {
       return data;

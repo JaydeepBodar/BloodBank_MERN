@@ -37,6 +37,7 @@ const Inventory = () => {
     `${api}inventory/getInventory`,
     inventorydata?.length > 0 ? ivdata : ""
   );
+  console.log("objectinventoryinventoryinventory",inventory)
   const donorinventory = useFetch(
     `${api}inventory/donorinventory`,
     donorinventorydata?.length > 0 ? donordata : ""
