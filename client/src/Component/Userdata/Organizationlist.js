@@ -44,7 +44,7 @@ const Organizationlist = ({
                   <th>Address</th>
                   <th>Joined us</th>
                   <th>view</th>
-                </tr>
+                </tr>                              
               </thead>
               <tbody>
                 {location.pathname === "/home/organizationlist" &&

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { GlobalContext } from "../Context/Authcontext";
 
 const useFetch = (url, queryparameter) => {
@@ -8,6 +8,7 @@ const useFetch = (url, queryparameter) => {
   const { token } = GlobalContext();
   const [data, setdata] = useState([]);
   const location = useLocation();
+  const navigate=useNavigate()
   const [loading, setloading] = useState(true);
   const [page, setpage] = useState(1);
   const [error, seterror] = useState("");
@@ -34,11 +35,18 @@ const useFetch = (url, queryparameter) => {
     // console.log("firstquerydata",querydata)
     // console.log("firstloading",loading)
   useEffect(() => {
-    console.log("objectrenderrrr")
     axios
       .get(querydata, config)
       .then((res) => setdata(res?.data))
-      .catch((e) => seterror(e?.response?.data?.message))
+      .catch((e) => {
+        if(e?.response?.status === 401){
+          localStorage.removeItem("user");
+          localStorage.removeItem("token");
+          navigate("/home/login")
+        }else{
+          seterror(e?.response?.data?.message)
+        }
+      })
       .finally(() => setloading(false));
   }, [loading, location, query, page]);
   return {

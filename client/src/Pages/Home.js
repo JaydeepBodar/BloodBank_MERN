@@ -21,7 +21,7 @@ const Home = () => {
               <Button className={styles.btn}>login</Button>
             </Link>
           </div>
-        </div>
+        </div>  
       </div>
     </section>
   );

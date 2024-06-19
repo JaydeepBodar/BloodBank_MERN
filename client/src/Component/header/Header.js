@@ -7,8 +7,8 @@ import { GlobalContext } from "../../Context/Authcontext";
 import Modaldata from "../Modaldata";
 const Header = () => {
   const navigat = useNavigate();
+  const router =useLocation()
   const { newdata, user } = GlobalContext();
-  console.log("newdata", newdata);
   const logout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -18,7 +18,11 @@ const Header = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  useEffect(()=>{
+    if(router.pathname === "/home"){
+      navigat("/home/dashboard")
+    }
+  },[router])
   return (
     <React.Fragment>
       <header className={styles.site_header}>

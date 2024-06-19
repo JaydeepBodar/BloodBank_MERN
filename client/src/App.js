@@ -31,7 +31,7 @@ function App() {
             </Loginprotect>
           }
         />
-        <Route path="home" element={<Header />}>
+        <Route path="/home" element={<Header />}>
           <Route
             path="Adminsignup"
             element={

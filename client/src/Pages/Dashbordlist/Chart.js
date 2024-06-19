@@ -1,5 +1,6 @@
 import React from 'react'
 import Chart from 'chart.js/auto';
+import style from "../../Style/Anaylitic.module.css"
 import { Bar } from 'react-chartjs-2';
 const Chartdata = ({totalblood}) => {
 	// console.log("totalblood",totalblood)
@@ -28,7 +29,7 @@ const Chartdata = ({totalblood}) => {
         },
       };
   return (
-    <Bar data={ndata} options={options} />
+      <Bar data={ndata} options={options} className={style.chart_wrapper} />
   )
 }
 

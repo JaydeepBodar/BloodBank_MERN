@@ -56,3 +56,17 @@
     font-size: 27px;
     text-align: center;
   }
+  .chart_wrapper{
+    width: 100% !important;
+    height: 100% !important;
+  }
+  @media screen and (max-width:768px) {
+    .chart_wrapper{
+        min-width: 600px;
+        height: 400px !important;
+        overflow-y: scroll;
+      }
+    .chart_wrapper_responsive{
+        overflow-x: scroll;
+    }
+  }
