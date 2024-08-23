@@ -4,6 +4,7 @@ const Authentication=async(req,res,next)=>{
         const decode=jwt.verify(req.headers.authorization,process.env.SECERETKEY)
         console.log("req.headers.authorizationreq.headers.authorizationreq.headers.authorization",req.headers.authorization)
         req.user=decode
+        console.log("decodedecode",decode)
         // console.log("req.user=decode",req.user=decode)
         next()
     }catch(e){

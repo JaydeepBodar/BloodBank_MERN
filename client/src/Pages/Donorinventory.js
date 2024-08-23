@@ -59,7 +59,7 @@ const Donorinventory = () => {
                             <thead>
                               {" "}
                               <tr>
-                                <th>sr</th>
+                                <th>sr</th> 
                                 <th>Name</th>
                                 <th>Bloodgroup</th>
                                 <th>Quantity(ML)</th>
@@ -72,7 +72,7 @@ const Donorinventory = () => {
                             <tbody>
                               {donorinventory?.data?.donorInventory?.map(
                                 (value, index) => {
-                                  {
+                                   {
                                     /* console.log("value", value); */
                                   }
                                   const {
