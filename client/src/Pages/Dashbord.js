@@ -1,6 +1,7 @@
 import React from "react";
 import { GlobalContext } from "../Context/Authcontext";
 import Layout from "../utils/Layout";
+import Authorization from "../utils/Authorization";
 const Dashbord = () => {
   const { data } = GlobalContext();
   return (
@@ -12,4 +13,4 @@ const Dashbord = () => {
   );
 };
 
-export default Dashbord;
+export default Authorization(Dashbord);

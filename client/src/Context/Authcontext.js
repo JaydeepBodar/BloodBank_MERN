@@ -20,7 +20,7 @@ const Userprovider = ({children}) => {
       data = user?.organizationName;
       break;
     case "Admin":
-      data = user?.name;
+      data = user?.name;  
       break;
   }
   const newdata = data
@@ -31,6 +31,6 @@ const Userprovider = ({children}) => {
 };
 export default Userprovider;
 
-export const GlobalContext = () => {
+export const  GlobalContext = () => {
   return useContext(Usercontext);
 };

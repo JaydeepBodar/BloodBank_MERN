@@ -7,6 +7,7 @@ import axios from "axios";
 import Donororganizationdata from "./Organizationdata/Donororganizationdata";
 import Hospitalorganization from "./Organizationdata/Hospitalorganization";
 import useFetch from "../Customhooks/useFetch";
+import Authorization from "../utils/Authorization";
 const Organizationdata = () => {
   const { user } = GlobalContext();
   const [search, setsearch] = useState({
@@ -79,4 +80,4 @@ const Organizationdata = () => {
   );
 };
 
-export default Organizationdata;
+export default Authorization(Organizationdata);

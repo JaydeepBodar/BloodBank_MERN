@@ -12,6 +12,7 @@ import Allinventory from "../Component/OrganizationInventory/Allinventory";
 import Donorinventory from "../Component/OrganizationInventory/Donorinventory";
 import Hospitalinventory from "../Component/OrganizationInventory/Hospitalinventory";
 import useFetch from "../Customhooks/useFetch";
+import Authorization from "../utils/Authorization";
 const Inventory = () => {
   const { token } = GlobalContext();
   const location = useLocation();
@@ -152,4 +153,4 @@ const Inventory = () => {
   );
 };
 
-export default Inventory;
+export default Authorization(Inventory);

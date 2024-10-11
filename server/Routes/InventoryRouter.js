@@ -1,5 +1,5 @@
 const routes = require("express").Router();
-const Authmiddleware = require("../Middleware/middleware");
+const { Authentication } = require("../Middleware/middleware");
 const {
   createInventory,
   getInventory,
@@ -8,14 +8,18 @@ const {
   getIndivisualdonorinventory,
   getOrganizationbydonor,
   getOrganizationbyhospital,
-  getHospitalindiviusalinventory
+  getHospitalindiviusalinventory,
 } = require("../Controller/Inventorycontroller");
-routes.post("/createInventory", Authmiddleware, createInventory);
-routes.get("/getInventory", Authmiddleware, getInventory);
-routes.get("/donorinventory", Authmiddleware, getDonorInventory);
-routes.get("/hospitalinventory", Authmiddleware, hospitalInventory);
-routes.get("/indivisualdonor", Authmiddleware, getIndivisualdonorinventory)
-routes.get("/donororganization",Authmiddleware ,getOrganizationbydonor)
-routes.get("/hospitalorganization",Authmiddleware,getOrganizationbyhospital)
-routes.get("/indivisualhospitalinventory",Authmiddleware,getHospitalindiviusalinventory)
+routes.post("/createInventory", Authentication, createInventory);
+routes.get("/getInventory", Authentication, getInventory);
+routes.get("/donorinventory", Authentication, getDonorInventory);
+routes.get("/hospitalinventory", Authentication, hospitalInventory);
+routes.get("/indivisualdonor", Authentication, getIndivisualdonorinventory);
+routes.get("/donororganization", Authentication, getOrganizationbydonor);
+routes.get("/hospitalorganization", Authentication, getOrganizationbyhospital);
+routes.get(
+  "/indivisualhospitalinventory",
+  Authentication,
+  getHospitalindiviusalinventory
+);
 module.exports = routes;

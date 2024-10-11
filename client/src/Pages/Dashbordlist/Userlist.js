@@ -7,6 +7,7 @@ import Donorlist from "../../Component/Userdata/Donorlist";
 import Hospitallist from "../../Component/Userdata/Hospitallist";
 import Organizationlist from "../../Component/Userdata/Organizationlist";
 import useFetch from "../../Customhooks/useFetch";
+import Authorization from "../../utils/Authorization";
 const Userlist = () => {
   const [search, setsearch] = useState({
     donordata: "",
@@ -106,4 +107,4 @@ const Userlist = () => {
   );
 };
 
-export default Userlist;
+export default Authorization(Userlist);

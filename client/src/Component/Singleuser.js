@@ -9,6 +9,7 @@ import { Button } from "react-bootstrap";
 import styles from "../Style/Donor.module.css";
 import useFetch from "../Customhooks/useFetch";
 import LoadingOverlay from "react-loading-overlay";
+import Authorization from "../utils/Authorization";
 const Singleuser = () => {
   const { id } = useParams();
   const { token, user } = GlobalContext();
@@ -159,4 +160,4 @@ const Singleuser = () => {
   );
 };
 
-export default Singleuser;
+export default Authorization(Singleuser);

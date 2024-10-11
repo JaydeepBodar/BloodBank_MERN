@@ -9,6 +9,7 @@ import Tostify from "../Component/Tostify";
 import LoadingOverlay from "react-loading-overlay";
 import { GlobalContext } from "../Context/Authcontext";
 import Custompagination from "../Component/Cutompagination";
+import Authorization from "../utils/Authorization";
 import moment from "moment";
 const Donorinventory = () => {
   const donorinventory = useFetch(`${api}inventory/indivisualdonor`, "");
@@ -202,4 +203,4 @@ const Donorinventory = () => {
   );
 };
 
-export default Donorinventory;
+export default Authorization(Donorinventory);

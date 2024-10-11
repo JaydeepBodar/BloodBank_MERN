@@ -57,121 +57,23 @@ function App() {
             }
           />
           {/* dashboard */}
-          <Route
-            path="dashboard"
-            element={
-              <ProtectRoutes>
-                <Dashbord />
-              </ProtectRoutes>
-            }
-          />
+          <Route path="dashboard" element={<Dashbord />} />
           {/* All user list */}
-          <Route
-            path="donorlist"
-            element={
-              <ProtectRoutes>
-                <Userlist />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="organizationlist"
-            element={
-              <ProtectRoutes>
-                <Userlist />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="hospitallist"
-            element={
-              <ProtectRoutes>
-                <Userlist />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="Hospitallist"
-            element={
-              <ProtectRoutes>
-                <Hospitallist />
-              </ProtectRoutes>
-            }
-          />
+          <Route path="donorlist" element={<Userlist />} />
+          <Route path="organizationlist" element={<Userlist />} />
+          <Route path="hospitallist" element={<Userlist />} />
+          <Route path="Hospitallist" element={<Hospitallist />} />
           {/* hospital inventory */}
-          <Route
-            path="inventory"
-            element={
-              <ProtectRoutes>
-                <Inventory />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="hospitalinventory"
-            element={
-              <ProtectRoutes>
-                <Inventory />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="donorinventory"
-            element={
-              <ProtectRoutes>
-                <Inventory />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="donor/:id"
-            element={
-              <ProtectRoutes>
-                <Singleuser />
-              </ProtectRoutes>
-            }
-          />
+          <Route path="inventory" element={<Inventory />} />
+          <Route path="hospitalinventory" element={<Inventory />} />
+          <Route path="donorinventory" element={<Inventory />} />
+          <Route path="donor/:id" element={<Singleuser />} />
           {/* donor inventory */}
-          <Route
-            path="donordatainventory"
-            element={
-              <ProtectRoutes>
-                <Donorinventory />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="anyalitic"
-            element={
-              <ProtectRoutes>
-                <Anaylitic />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="donororganization"
-            element={
-              <ProtectRoutes>
-                <Organizationdata />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="hospitalorganization"
-            element={
-              <ProtectRoutes>
-                <Organizationdata />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="hospitaloutinventory"
-            element={
-              <ProtectRoutes>
-                <Donorinventory />
-              </ProtectRoutes>
-            }
-          />
+          <Route path="donordatainventory" element={<Donorinventory />} />
+          <Route path="anyalitic" element={<Anaylitic />} />
+          <Route path="donororganization" element={<Organizationdata />} />
+          <Route path="hospitalorganization" element={<Organizationdata />} />
+          <Route path="hospitaloutinventory" element={<Donorinventory />} />
         </Route>
       </Routes>
     </React.Fragment>

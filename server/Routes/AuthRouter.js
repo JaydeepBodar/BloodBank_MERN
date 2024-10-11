@@ -1,5 +1,4 @@
 const routes = require("express").Router();
-const { Router } = require("express");
 const {
   registerUser,
   loginUser,
@@ -10,13 +9,13 @@ const {
   getHospital,
   deleteSingleuser
 } = require("../Controller/AuthController");
-const protectRoutes = require("../Middleware/middleware");
+const {Authentication} = require("../Middleware/middleware");
 routes.post("/register", registerUser);
 routes.post("/login", loginUser);
-routes.get("/user", protectRoutes, getUser);
-routes.get("/donor", protectRoutes, getDonor);
-routes.get("/donor/:id", protectRoutes, getSingleuser);
-routes.get("/organization",protectRoutes, getOrganization);
-routes.get("/hospital",protectRoutes,getHospital);
-routes.delete("/user/:id",protectRoutes,deleteSingleuser)
+routes.get("/user", Authentication, getUser);
+routes.get("/donor", Authentication, getDonor);
+routes.get("/donor/:id", Authentication, getSingleuser);
+routes.get("/organization",Authentication, getOrganization);
+routes.get("/hospital",Authentication,getHospital);
+routes.delete("/user/:id",Authentication,deleteSingleuser)
 module.exports = routes;

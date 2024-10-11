@@ -1,5 +1,5 @@
 const routes = require("express").Router();
-const authmiddleware = require("../Middleware/middleware");
+const {Authentication} = require("../Middleware/middleware");
 const { Anaylitic } = require("../Controller/Anyalyticinventory");
-routes.get("/anaylitic", authmiddleware, Anaylitic);
+routes.get("/anaylitic", Authentication, Anaylitic);
 module.exports = routes
